@@ -4,63 +4,10 @@ import c_beat_group  from "../common/beat_group.js";
 import c_seq         from "../common/seq.js";
 import run_volume    from "../volume/page.js";
 
-let img = n => new c_img("./man/images/" + n + ".png");
-
-const borders      = img("borders");
-const back         = img("back");
-const volume       = img("volume");
-const audio_blue   = img("audio_blue");
-const audio_yellow = audio_blue.clone_yellow();
-
-const ground_border = img("ground_border");
-const ground_green  = img("ground_green");
-const sky_red       = img("sky");
-const sky = sky_red.clone_green();
-const sun_border    = img("sun_border");
-const sun_yellow    = img("sun_yellow");
-const sun_white     = sun_yellow.clone_white();
-const ship_blue     = img("ship_blue");
-const ship_yellow   = ship_blue.clone_yellow();
-const ship_border   = img("ship_border");
-const beam_border   = img("beam_border");
-const beam_white    = img("beam_white");
-const man_border    = img("man_border");
-const man_yellow    = img("man_yellow");
-const house_blue    = img("house_blue");
-const house_border  = img("house_border");
-const door_border   = img("door_border");
-const door_red      = img("door_red");
-const window_border = img("window_border");
-const window_yellow = img("window_yellow");
-const window_white  = window_yellow.clone_white();
-
-
-
-const bf            = 90;
-const bin           = bf * Math.pow(PHI, -7);
-const dur           = 2000;
+const bf    = 90;
+const bin   = bf * Math.pow(PHI, -7);
+const dur   = 2000;
 const group = new c_beat_group(dur);
-
-const start_audio = _ => {
-	window.start_audio = null;
-	window.stop_audio  = stop_audio;
-	start(group);
-};
-
-const stop_audio = _ => {
-	window.start_audio = start_audio;
-	window.stop_audio  = null;
-	stop(group);
-};
-
-
-const audio   = new c_toggle(img("audio_blue"), img("audio_yellow"), null, start_audio, stop_audio);
-
-
-
-
-
-
 
 const center_1 = new c_seq(dur * 1, [ 
 	1 / 1 * bf * (PHI + 0), 
@@ -78,12 +25,145 @@ const center_3 = new c_seq(dur * 4, [
 ], bin);
 
 
+const start_audio = _ => {
+	window.start_audio = null;
+	window.stop_audio  = stop_audio;
+	start(group);
+};
+
+const stop_audio = _ => {
+	window.start_audio = start_audio;
+	window.stop_audio  = null;
+	stop(group);
+};
+
+let img = n => new c_img("./man/images/" + n + ".png");
+
+const borders       = img("borders");
+const back          = img("back");
+const volume        = img("volume");
+const audio_blue    = img("audio_blue");
+const audio_yellow  = audio_blue.clone_yellow();
+
+
+
+const green         = img("green");
+
+const sun_yellow    = img("sun_yellow");
+const sun_white     = sun_yellow.clone_white();
+
+const window_yellow = img("window_yellow");
+const window_white  = window_yellow.clone_white();
+
+
+
+//const ground_green  = img("ground_green");
+//const sky_red       = img("sky");
+//const sky = sky_red.clone_green();
+//const sun_border    = img("sun_border");
+// const ship_blue     = img("ship_blue");
+// const ship_yellow   = ship_blue.clone_yellow();
+// const ship_border   = img("ship_border");
+// const beam_border   = img("beam_border");
+// const beam_white    = img("beam_white");
+// const man_border    = img("man_border");
+// const man_yellow    = img("man_yellow");
+// const house_blue    = img("house_blue");
+// const house_border  = img("house_border");
+// const door_border   = img("door_border");
+// const door_red      = img("door_red");
+//const window_border = img("window_border");
+
+
+const audio   = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
+
+const _window = new c_toggle(window_white, window_yellow);
+
+const sun = new c_toggle(sun_yellow, sun_white, null, 
+	_ => { 
+		_window.on = true; 
+		group.add([ center_1, center_2, center_3 ]);
+	},
+	_ => { 
+		_window.on = false; 
+		group.remove([ center_1, center_2, center_3 ]);
+	}
+);
+
+
+
+
+
+let start_external_audio = null;
+
+const click_page = _ => {
+    if (click(back)) return run_page("home"); 
+	else start_external_audio = null;
+    if (click(volume)) run_volume();
+	click([ audio, sun ]);
+	on_resize();
+};
+
+const draw_page = _ => {
+	draw(sun.on ? bg_black : bg_white);
+	draw(green);
+    draw(back);
+    draw(volume);
+	draw(audio);
+	draw([ sun, _window ]);
+    draw(borders);
+};
+
+const run = _ => {
+    if (window.stop_audio !== null && window.stop_audio !== stop_audio) {
+		window.stop_audio();
+		start_external_audio = window.start_audio;
+	}
+    on_resize = draw_page;
+    on_click  = click_page;
+    on_resize();
+};
+
+export { run }
+
+
+// const sun_off = 0;
+// const sun_on  = 1;
+//let sun = sun_on;
+// const draw_sun = _ => { 
+// 	if (sun === sun_off) {
+// 		draw(sun_white); 
+// 	} else {
+// 		draw(sun_yellow); 
+// 	}
+// 	draw(sun_border);
+// };
+// const click_sun = _ => {
+// 	if (sun_yellow.click()) {
+// 		if (sun === sun_off) {
+// 			sun = sun_on;
+// 			group.remove(s_sun_off);
+// 			group.add(s_sun_on);
+// 		} else {
+// 			sun = sun_off;
+// 			group.remove(s_sun_on);
+// 			group.add(s_sun_off);
+// 		}
+// 		return true;
+// 	} else return false;
+// };
 
 
 
 
 
 
+
+
+
+
+
+/*
 const beam_off     = 0;
 const beam_taking  = 1;
 const beam_putting = 2;
@@ -212,31 +292,6 @@ const draw_window = _ => {
 	draw(window_border);
 };
 
-const sun_off = 0;
-const sun_on  = 1;
-let sun = sun_on;
-const draw_sun = _ => { 
-	if (sun === sun_off) {
-		draw(sun_white); 
-	} else {
-		draw(sun_yellow); 
-	}
-	draw(sun_border);
-};
-const click_sun = _ => {
-	if (sun_yellow.click()) {
-		if (sun === sun_off) {
-			sun = sun_on;
-			group.remove(s_sun_off);
-			group.add(s_sun_on);
-		} else {
-			sun = sun_off;
-			group.remove(s_sun_on);
-			group.add(s_sun_off);
-		}
-		return true;
-	} else return false;
-};
 
 const draw_door  = _ => { 
 	if (man === man_in_house) {
@@ -291,52 +346,7 @@ const click_house = _ => {
 // group.add(s_ship_over_valley);
 // group.add(s_sun_on);
 
-
-
-
-
-let start_external_audio = null;
-
-const click_page = _ => {
-    if (click(back)) return run_page("home");
-//    if (click(volume)) run_volume();
-//    if (click(toggles)) on_resize();
-    start_external_audio = null;
-};
-
-const draw_page = _ => {
-	draw(sky);
-	draw(ground_green);
-	draw(ground_border);
-	
-    draw(back);
-    draw(volume);
-	draw(audio);
-
-	draw_house();
-	draw_sun();
-	draw_window();
-	draw_ship();
-	draw_beam();
-	draw_man();
-	draw_door();
-
-
-	
-    draw(borders);
-};
-
-const run = _ => {
-    if (window.stop_audio !== null && window.stop_audio !== stop_audio) {
-		window.stop_audio();
-		start_external_audio = window.start_audio;
-	}
-    on_resize = draw_page;
-    on_click  = click_page;
-    on_resize();
-};
-
-export { run }
+*/
 
 
 /*

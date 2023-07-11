@@ -6,19 +6,25 @@ function c_beat_group(dur) {
 }
 
 c_beat_group.prototype.add = function(m) {
-	if (this.members.indexOf(m) === -1 && this.joiners.indexOf(m) === -1) {
-		this.joiners.push(m);
-	}
+	if (!Array.isArray(m)) m = [ m ];
+	m.forEach(m => {
+		if (this.members.indexOf(m) === -1 && this.joiners.indexOf(m) === -1) {
+			this.joiners.push(m);
+		}
+	});
 };
 
 c_beat_group.prototype.remove = function(m) {
-	let i = this.members.indexOf(m);
-	if (i !== -1) {
-        m.stop();
-		this.members.splice(i, 1);
-	}
-	i = this.joiners.indexOf(m);
-	if (i !== -1) this.joiners.splice(i, 1);
+	if (!Array.isArray(m)) m = [ m ];
+	m.forEach(m => {
+		let i = this.members.indexOf(m);
+		if (i !== -1) {
+	        m.stop();
+			this.members.splice(i, 1);
+		}
+		i = this.joiners.indexOf(m);
+		if (i !== -1) this.joiners.splice(i, 1);
+	});
 };
 
 c_beat_group.prototype.next = function() {

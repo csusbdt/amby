@@ -199,6 +199,8 @@ c_bg.prototype.click = function() {
 };
 
 window.bg_green = new c_bg(rgb_green);
+window.bg_black = new c_bg(rgb_black);
+window.bg_white = new c_bg(rgb_white);
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -216,7 +218,7 @@ window.freq = (octave_steps, base_f, steps) => {
 };
 
 window.draw = (o, x = 0, y = 0) => {
-	if (typeof o.draw === 'undefined') {
+	if (Array.isArray(o)) {
 		for (const i in o) {
 			o[i].draw(x, y);
 		}
@@ -224,7 +226,8 @@ window.draw = (o, x = 0, y = 0) => {
 };
 
 window.click = (o, x = 0, y = 0) => {
-	if (typeof o.click === 'undefined') {
+//	if (typeof o.click === 'undefined') {
+	if (Array.isArray(o)) {
 		for (const i in o) {
 			if (o[i].click(x, y)) return true;
 		}
@@ -233,13 +236,15 @@ window.click = (o, x = 0, y = 0) => {
 };
 
 window.start = (o, x = 0, y = 0) => {
-	if (typeof o.start === 'undefined') {
+	if (Array.isArray(o)) {
+//	if (typeof o.start === 'undefined') {
 		for (const i in o) o[i].start(x, y);
 	} else o.start(x, y);
 };
 
 window.stop = (o, x = 0, y = 0) => {
-	if (typeof o.stop === 'undefined') {
+	if (Array.isArray(o)) {
+//	if (typeof o.stop === 'undefined') {
 		for (const i in o) o[i].stop(x, y);
 	} else o.stop(x, y);
 };
