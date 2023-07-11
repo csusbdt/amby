@@ -87,6 +87,14 @@ c_img.prototype.clone_color = function(r, g, b) {
 	return img;
 };
 
+c_img.prototype.clone_green = function() {
+	return this.clone_color(
+		window.colors.green[0], 
+		window.colors.green[1], 
+		window.colors.green[2]
+	);
+};
+
 c_img.prototype.clone_yellow = function() {
 	return this.clone_color(
 		window.colors.yellow[0], 
