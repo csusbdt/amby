@@ -107,6 +107,7 @@ const draw_page = _ => {
 const run = _ => {
     if (window.stop_audio !== null && window.stop_audio !== stop_audio) {
 		window.stop_audio();
+		toggles.audio.on = false;
 		start_external_audio = window.start_audio;
 	}
     on_resize = draw_page;
