@@ -24,6 +24,11 @@ c_start_group.prototype.remove = function(...m) {
     });
 };
 
+c_start_group.prototype.remove_all = function() {
+	this.members.forEach(m => m.stop());
+	this.members.length = 0;
+};
+
 c_start_group.prototype.next = function() {
 	this.id = setTimeout(c_start_group.prototype.next.bind(this), this.dur);
 };

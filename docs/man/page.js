@@ -74,7 +74,7 @@ const sun = {
 		if (click(this.yellow)) {
 			if (this.state === DAY) {
 				this.state = NIGHT;
-				night_group.remove(night_1, night_2, night_3);
+				night_group.remove_all();
 			} else {
 				this.state = DAY;
 				night_group.add(night_1, night_2, night_3);
