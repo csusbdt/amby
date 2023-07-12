@@ -1,6 +1,6 @@
-function c_start_group(dur) {
+function c_start_group(dur, members = []) {
 	this.dur     = dur;
-	this.members = [];
+	this.members = members;
 	this.id      = null;
 }
 
