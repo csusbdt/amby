@@ -32,9 +32,7 @@ const night_ring = new c_seq(night_dur * 1, [
 	5 / 4 * night_bf * (PHI + 2)
 ], night_bin, .7);
 
-const night_group = new c_start_group(night_dur, [
-	night_1, night_2, night_3
-]);
+const night_group = new c_start_group(night_dur);
 
 // day group
 
@@ -55,18 +53,20 @@ const day_a = new c_seq(day_dur * 3, [
 	sp1(day_a_f, 0), sp1(day_a_f, 3), sp1(day_a_f, 3), sp1(day_a_f, 1), sp1(day_a_f, 2) 
 ], day_bin);
 
-const day_group = new c_start_group(day_dur, [ day_center ]);
+const day_group = new c_start_group(day_dur);
 
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
-	update_groups();
+	//update_groups();
+	start([ day_group, night_group ]);
 };
 
 const stop_audio = _ => {
 	window.start_audio = start_audio;
 	window.stop_audio  = null;
-	update_groups();
+	//update_groups();
+	stop([ day_group, night_group ]);
 };
 
 let img = n => new c_img("./man/images/" + n + ".png");
@@ -82,10 +82,7 @@ const green         = img("green");
 const audio   = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
 
 const update_groups = _ => {
-	if (window.stop_audio === null) {
-		stop([ day_group, night_group ]);
-	}
-	else if (sun.state === DAY) {
+	if (sun.state === DAY) {
 		night_group.set([]);
 		if (man.state === INSIDE_HOUSE) {
 			day_group.set([ day_center, day_a, day_accent ]);
@@ -293,9 +290,11 @@ const click_page = _ => {
     if (click(back)) return run_page("home"); 
 	else start_external_audio = null;
     if (click(volume)) run_volume();
-	click([ audio, sun, man, ship, house ]);
-	update_groups();
-	on_resize();
+	if (click(audio)) on_resize();
+	if (click([ sun, man, ship, house ])) {
+		update_groups();
+		on_resize();
+	}
 };
 
 const draw_page = _ => {
@@ -316,6 +315,7 @@ const run = _ => {
     on_resize = draw_page;
     on_click  = click_page;
     on_resize();
+	update_groups();
 };
 
 export { run }

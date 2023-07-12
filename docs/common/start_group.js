@@ -5,9 +5,8 @@ function c_start_group(dur, members = []) {
 
 c_start_group.prototype.set = function(a) {
 	if (!Array.isArray(a)) a = [ a ];
-	if (this.members.forEach(m => a.includes(m)) && 
-		a.forEach(m => this.members.includes(m))
-	) {
+	if (this.members.every(m => a.includes(m)) &&
+		a.every(m => this.members.includes(m))) {
 		return;
 	}
 	stop(this.members);
