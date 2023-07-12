@@ -8,8 +8,8 @@ function c_tone(f, b = 0, v = 1) {
 }
 
 c_tone.prototype.start = function() {
-    assert(window.stop_audio !== null);
-	assert(this.g === null);
+	if (window.stop_audio === null) return;
+	if (this.g !== null) return;
 	this.g = audio.createGain();
 	this.g.connect(gain);
 	this.g.gain.value = 0;
@@ -28,14 +28,13 @@ c_tone.prototype.start = function() {
 };
 
 c_tone.prototype.stop = function() {
-	if (this.g !== null) {
-    	this.g.gain.setTargetAtTime(0, audio.currentTime, .05);
-    	let g        = this.g;
-    	this.g       = null;
-		this.o_left  = null;
-		this.o_right = null;
-    	setTimeout(_ => g.disconnect(), 1000);
-    }
+	if (this.g === null) return;
+	this.g.gain.setTargetAtTime(0, audio.currentTime, .05);
+	let g        = this.g;
+	this.g       = null;
+	this.o_left  = null;
+	this.o_right = null;
+	setTimeout(_ => g.disconnect(), 1000);
     return this;
 };
 

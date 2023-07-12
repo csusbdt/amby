@@ -22,10 +22,12 @@ c_seq.prototype.next = function() {
 };
 
 c_seq.prototype.start = function() {
-    this.i = this.fs.length - 1;
-	this.tone.set_f(this.fs[0]);
-    this.tone.start();
-    this.next();
+	if (window.stop_audio !== null) {
+	    this.i = 0;
+		this.tone.set_f(this.fs[this.i]);
+	    this.tone.start();
+		this.id = setTimeout(c_seq.prototype.next.bind(this), this.dur);
+	}
 };
 
 c_seq.prototype.stop = function() {

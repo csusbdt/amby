@@ -5,18 +5,18 @@ function c_beat_group(dur) {
 	this.id      = null;
 }
 
-c_beat_group.prototype.add = function(m) {
-	if (!Array.isArray(m)) m = [ m ];
-	m.forEach(m => {
+c_beat_group.prototype.add = function(a) {
+	if (!Array.isArray(a)) a = [ a ];
+	a.forEach(m => {
 		if (this.members.indexOf(m) === -1 && this.joiners.indexOf(m) === -1) {
 			this.joiners.push(m);
 		}
 	});
 };
 
-c_beat_group.prototype.remove = function(m) {
-	if (!Array.isArray(m)) m = [ m ];
-	m.forEach(m => {
+c_beat_group.prototype.remove = function(a) {
+	if (!Array.isArray(a)) a = [ a ];
+	a.forEach(m => {
 		let i = this.members.indexOf(m);
 		if (i !== -1) {
 	        m.stop();
@@ -37,6 +37,7 @@ c_beat_group.prototype.next = function() {
 };
 
 c_beat_group.prototype.start = function() {
+	if (window.stop_audio === null) return;
 	if (this.id === null) {
 		while (this.joiners.length > 0) {
 			this.members.push(this.joiners.pop());

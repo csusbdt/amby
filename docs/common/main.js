@@ -237,14 +237,12 @@ window.click = (o, x = 0, y = 0) => {
 
 window.start = (o, x = 0, y = 0) => {
 	if (Array.isArray(o)) {
-//	if (typeof o.start === 'undefined') {
 		for (const i in o) o[i].start(x, y);
 	} else o.start(x, y);
 };
 
 window.stop = (o, x = 0, y = 0) => {
 	if (Array.isArray(o)) {
-//	if (typeof o.stop === 'undefined') {
 		for (const i in o) o[i].stop(x, y);
 	} else o.stop(x, y);
 };

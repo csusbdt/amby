@@ -25,24 +25,48 @@ const night_3 = new c_seq(night_dur * 4, [
 	7 / 3 * night_bf * (PHI - 0)
 ], night_bin);
 
+const night_ring = new c_seq(night_dur * 1, [
+	3 / 4 * night_bf * (PHI + 2), 
+	3 / 4 * night_bf * (PHI + 2), 
+	5 / 3 * night_bf * (PHI + 0),
+	5 / 4 * night_bf * (PHI + 2)
+], night_bin, .7);
+
 const night_group = new c_start_group(night_dur, [
 	night_1, night_2, night_3
 ]);
 
+// day group
 
-// .... other groups
+const day_bf    = 90;
+const day_bin   = day_bf * Math.pow(PHI, -7);
+const day_dur   = 1000;
 
+const day_center = new c_seq(day_dur, [ 
+	sp1(day_bf, 0), sp1(day_bf, 3), sp1(day_bf, 3), sp1(day_bf, 1), sp1(day_bf, 2) 
+], day_bin);
+
+const day_accent = new c_seq(day_dur * 2, [ 
+	day_bf * 2, sp1(day_bf * 2 * PHI, 3), day_bf * 2, sp1(day_bf * 2, 0) 
+], day_bin, .6);
+
+const day_a_f = day_bf * Math.pow(2 * (PHI - 1), 3);
+const day_a = new c_seq(day_dur * 3, [ 
+	sp1(day_a_f, 0), sp1(day_a_f, 3), sp1(day_a_f, 3), sp1(day_a_f, 1), sp1(day_a_f, 2) 
+], day_bin);
+
+const day_group = new c_start_group(day_dur, [ day_center ]);
 
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
-	if (sun.state === DAY) start(night_group);
+	update_groups();
 };
 
 const stop_audio = _ => {
 	window.start_audio = start_audio;
 	window.stop_audio  = null;
-	stop(night_group);
+	update_groups();
 };
 
 let img = n => new c_img("./man/images/" + n + ".png");
@@ -56,6 +80,35 @@ const audio_yellow  = audio_blue.clone_yellow();
 const green         = img("green");
 
 const audio   = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
+
+const update_groups = _ => {
+	if (window.stop_audio === null) {
+		stop([ day_group, night_group ]);
+	}
+	else if (sun.state === DAY) {
+		night_group.set([]);
+		if (man.state === INSIDE_HOUSE) {
+			day_group.set([ day_center, day_a, day_accent ]);
+		} else if (man.state === OUTSIDE_HOUSE) {
+			day_group.set([ day_center, day_a ]);
+		} else if (man.state === IN_VALLEY) {
+			day_group.set([ day_center ]);
+		} else if (man.state === INSIDE_SHIP) {
+			day_group.set([ ]);
+		}
+	} else {
+		day_group.set([]);
+		if (man.state === INSIDE_HOUSE) {
+			night_group.set([ night_1, night_2, night_3 ]);
+		} else if (man.state === OUTSIDE_HOUSE) {
+			night_group.set([ night_1, night_2 ]);
+		} else if (man.state === IN_VALLEY) {
+			night_group.set([ night_1 ]);
+		} else if (man.state === INSIDE_SHIP) {
+			night_group.set([ ]);
+		}
+	}
+};
 
 const DAY   = 0;
 const NIGHT = 1;
@@ -74,10 +127,8 @@ const sun = {
 		if (click(this.yellow)) {
 			if (this.state === DAY) {
 				this.state = NIGHT;
-				night_group.remove_all();
 			} else {
 				this.state = DAY;
-				night_group.add(night_1, night_2, night_3);
 			}
 			return true;
 		}
@@ -243,6 +294,7 @@ const click_page = _ => {
 	else start_external_audio = null;
     if (click(volume)) run_volume();
 	click([ audio, sun, man, ship, house ]);
+	update_groups();
 	on_resize();
 };
 
