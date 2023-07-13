@@ -6,13 +6,17 @@ import run_volume    from "../volume/page.js";
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
-	start(objs);
+	for (let row = 0; row < 5; ++row) {
+		start(objs[row]);
+	}
 };
 
 const stop_audio = _ => {
 	window.start_audio = start_audio;
 	window.stop_audio  = null;
-	stop(objs);
+	for (let row = 0; row < 5; ++row) {
+		stop(objs[row]);
+	}
 };
 
 let img = n => new c_img("./tones/images/" + n + ".png");
@@ -48,13 +52,13 @@ c_obj.prototype.stop = function() {
 };
 
 c_obj.prototype.draw = function() {
-	if (this.on) yellow.draw(dx * this.i, 0);
-	else blue.draw(dx * this.i, 0);
-	border.draw(dx * this.i, 0);	
+	if (this.on) yellow.draw(dx * this.i, dx * this.j);
+	else blue.draw(dx * this.i, dx * this.j);
+	border.draw(dx * this.i, dx * this.j);	
 };
 
 c_obj.prototype.click = function() {
-	if (blue.click(dx * this.i, 0)) {
+	if (blue.click(dx * this.i, dx * this.j)) {
 		if (this.on) {
 			this.on = false;
 			this.tone.stop();
@@ -68,16 +72,27 @@ c_obj.prototype.click = function() {
 
 const objs = [];
 
-for (let i = 0; i < 7; ++i) {
-	objs.push(new c_obj(i, 0));
+for (let row = 0; row < 5; ++row) {
+	const phi_tones = [];
+	objs.push(phi_tones);
+	for (let i = 0; i < row; ++i) {
+		phi_tones.push(new c_obj(i, row));
+	}
 }
 
 const draw_tones = _ => {
-	draw(objs);
+	for (let row = 0; row < objs.length; ++row) {
+		draw(objs[row]);
+	}
 };
 
 const click_tones = _ => {
-	return click(objs);
+	for (let row = 0; row < objs.length; ++row) {
+		if (click(objs[row])) {
+			return true;
+		}
+	}
+	return false;
 };
 
 let start_external_audio = null;

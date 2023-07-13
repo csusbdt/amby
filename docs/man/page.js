@@ -152,11 +152,11 @@ const update_groups = _ => {
 		} else if (man.state === IN_VALLEY) {
 			night_group.set([ night_5, night_6 ]);
 		} else if (man.state === INSIDE_SHIP) {
-			if (ship.state === OVER_VALLEY) {
-				night_group.set([ night_1, night_2, night_3 ]);
-			} else {
+//			if (ship.state === OVER_VALLEY) {
+//				night_group.set([ night_1, night_2, night_3 ]);
+//			} else {
 				night_group.set([ night_1, night_2, night_3, night_4 ]);
-			}
+//			}
 		}
 	}
 };
