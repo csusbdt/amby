@@ -106,10 +106,20 @@ const day_a = new c_seq(day_dur * 3, [
 	sp1(day_a_f, 0), sp1(day_a_f, 3), sp1(day_a_f, 3), sp1(day_a_f, 1), sp1(day_a_f, 2) 
 ], day_bin);
 
+const day_b_f = day_bf * Math.pow(2 * (PHI - 1), 2);
+const day_b = new c_seq(day_dur * 9, [ 
+	sp1(day_b_f, 0), sp1(day_b_f, 3), sp1(day_b_f, 3), sp1(day_b_f, 1), sp1(day_b_f, 2) 
+], day_bin);
+
+const day_c_f = day_bf * Math.pow(2 * (1 - PHI), 5);
+const day_c = new c_seq(day_dur * 6, [ 
+	day_c_f, day_c_f * (PHI - 1), day_c_f * (PHI + 1) / 2, day_c_f * PHI
+], day_bin);
+
 const day_e_f = day_bf * 2;
 const day_e = new c_seq(day_dur * 9, [
 	sp1(day_e_f, 0), sp1(day_e_f, 3), sp1(day_e_f, 1), sp1(day_e_f, 2), sp1(day_e_f, 4)
-]);
+], day_bin);
 
 const day_group = new c_start_group(day_dur);
 
@@ -129,28 +139,31 @@ const update_groups = _ => {
 	if (sun.state === DAY) {
 		night_group.set([]);
 		if (man.state === INSIDE_HOUSE) {
-			day_group.set([ day_center, day_a, day_accent ]);
+			day_group.set([ day_center, day_a, day_b, day_c, day_accent ]);
 		} else if (man.state === OUTSIDE_HOUSE) {
-			day_group.set([ day_center, day_a ]);
+			day_group.set([ day_center, day_c ]);
 		} else if (man.state === IN_VALLEY) {
-			day_group.set([ day_center ]);
+			day_group.set([ day_center, day_a, day_accent ]);
 		} else if (man.state === INSIDE_SHIP) {
 			day_group.set([ day_center, day_e, day_accent ]);
 		}
 	} else {
 		day_group.set([]);
 		if (beam.state === TAKING) {
-//			night_group.set([ beam_taking ]);
-			night_group.set([ night_5 ]);
+			night_group.set([ beam_taking ]);
+//			night_group.set([ night_5 ]);
 		} else if (beam.state === PUTTING) {
-//			night_group.set([ beam_putting ]);
-			night_group.set([ night_5, night_6 ]);
+			night_group.set([ beam_putting ]);
+//			night_group.set([ night_5, night_6 ]);
 		} else if (man.state === INSIDE_HOUSE) {
-			night_group.set([ night_5, night_6, night_7, night_8 ]);
+//			night_group.set([ night_5, night_6, night_7, night_8 ]);
+			night_group.set([]);
 		} else if (man.state === OUTSIDE_HOUSE) {
-			night_group.set([ night_5, night_6, night_7 ]);
+//			night_group.set([ night_5, night_6, night_7 ]);
+			night_group.set([]);
 		} else if (man.state === IN_VALLEY) {
-			night_group.set([ night_5, night_6 ]);
+//			night_group.set([ night_5, night_6 ]);
+			night_group.set([]);
 		} else if (man.state === INSIDE_SHIP) {
 //			if (ship.state === OVER_VALLEY) {
 //				night_group.set([ night_1, night_2, night_3 ]);
