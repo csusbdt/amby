@@ -8,7 +8,7 @@ import run_volume    from "../volume/page.js";
 
 const night_bf    = 90;
 const night_bin   = night_bf * Math.pow(PHI, -7);
-const night_dur   = 2000;
+const night_dur   = 1000;
 
 const night_1 = new c_seq(night_dur * 1, [ 
 	1 / 1 * night_bf * (PHI + 0), 
@@ -24,6 +24,13 @@ const night_3 = new c_seq(night_dur * 4, [
 	6 / 3 * night_bf * (PHI - 0), 
 	7 / 3 * night_bf * (PHI - 0)
 ], night_bin);
+
+const night_4 = new c_seq(night_dur * 16, [
+	1 / 3 * night_bf * (PHI + 0), 
+	5 / 3 * night_bf * (PHI + 0),
+	7 / 3 * night_bf * (PHI + 0),
+	4 / 3 * night_bf * (PHI + 0)
+], night_bin, .8);
 
 const night_ring = new c_seq(night_dur * 1, [
 	3 / 4 * night_bf * (PHI + 2), 
@@ -55,17 +62,18 @@ const day_a = new c_seq(day_dur * 3, [
 
 const day_group = new c_start_group(day_dur);
 
+const beam_taking  = new c_seq(night_dur / 6, [ night_bf * PHI        , night_bf * PHI * PHI   ]);
+const beam_putting = new c_seq(night_dur / 4, [ sp1(night_bf * PHI, 2), sp1(night_bf * PHI, 0) ]);
+
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
-	//update_groups();
 	start([ day_group, night_group ]);
 };
 
 const stop_audio = _ => {
 	window.start_audio = start_audio;
 	window.stop_audio  = null;
-	//update_groups();
 	stop([ day_group, night_group ]);
 };
 
@@ -95,14 +103,22 @@ const update_groups = _ => {
 		}
 	} else {
 		day_group.set([]);
-		if (man.state === INSIDE_HOUSE) {
-			night_group.set([ night_1, night_2, night_3 ]);
+		if (beam.state === TAKING) {
+			night_group.set([ beam_taking ]);
+		} else if (beam.state === PUTTING) {
+			night_group.set([ beam_putting ]);
+		} else if (man.state === INSIDE_HOUSE) {
+			night_group.set([]);
 		} else if (man.state === OUTSIDE_HOUSE) {
 			night_group.set([ night_1, night_2 ]);
 		} else if (man.state === IN_VALLEY) {
 			night_group.set([ night_1 ]);
 		} else if (man.state === INSIDE_SHIP) {
-			night_group.set([ ]);
+			if (ship.state === OVER_VALLEY) {
+				night_group.set([ night_1, night_2, night_3 ]);
+			} else {
+				night_group.set([ night_1, night_2, night_3, night_4 ]);
+			}
 		}
 	}
 };
@@ -121,6 +137,7 @@ const sun = {
 		draw(this.border);
 	},
 	click: function() {
+		if (beam.state !== OFF) return false;
 		if (click(this.yellow)) {
 			if (this.state === DAY) {
 				this.state = NIGHT;
@@ -229,6 +246,7 @@ const house = {
 		draw([ this.door_red, this.border, this.window_border, this.door_border ]);
 	},
 	click: function() {
+		if (beam.state !== OFF) return false;
 		if (click(this.blue)) {
 			if (man.state === INSIDE_HOUSE) {
 				man.state = OUTSIDE_HOUSE;
@@ -269,6 +287,7 @@ const man = {
 		}
 	},
 	click: function() {
+		if (beam.state !== OFF) return false;
 		if (this.state === IN_VALLEY) { 
 			if (click(this.yellow)) {
 				this.state = OUTSIDE_HOUSE;
@@ -284,6 +303,8 @@ const man = {
 	}
 };
 
+let click_set = [ sun, man, ship, house ];
+
 let start_external_audio = null;
 
 const click_page = _ => {
@@ -291,7 +312,7 @@ const click_page = _ => {
 	else start_external_audio = null;
     if (click(volume)) run_volume();
 	if (click(audio)) on_resize();
-	if (click([ sun, man, ship, house ])) {
+	if (click(click_set)) {
 		update_groups();
 		on_resize();
 	}
