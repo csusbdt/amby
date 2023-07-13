@@ -383,7 +383,8 @@ const run = _ => {
 		window.stop_audio();
 		start_external_audio = window.start_audio;
 	}
-    on_resize = draw_page;
+	audio.on = window.stop_audio !== null;
+	on_resize = draw_page;
     on_click  = click_page;
     on_resize();
 	update_groups();

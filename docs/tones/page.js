@@ -6,17 +6,13 @@ import run_volume    from "../volume/page.js";
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
-	for (let row = 0; row < 5; ++row) {
-		start(objs[row]);
-	}
+	objs.forEach(row => start(row));
 };
 
 const stop_audio = _ => {
 	window.start_audio = start_audio;
 	window.stop_audio  = null;
-	for (let row = 0; row < 5; ++row) {
-		stop(objs[row]);
-	}
+	objs.forEach(row => stop(row));
 };
 
 let img = n => new c_img("./tones/images/" + n + ".png");
@@ -36,10 +32,11 @@ const bf  = 90;
 const bin = bf * Math.pow(PHI, -7);
 const dx  = 75;
 
-function c_obj(i, j) {
-	this.i    = i;
-	this.j    = j;
-	this.tone = new c_tone(bf, bin, 1);
+function c_obj(col, row) {
+	this.col    = col;
+	this.row    = row;
+	this.tone = new c_tone(bf * phi(row + 2, col), bin, 1);
+//	this.tone = new c_tone(bf * p(2, row + 2, col), bin, 1);
 	this.on   = false;
 }
 
@@ -52,13 +49,13 @@ c_obj.prototype.stop = function() {
 };
 
 c_obj.prototype.draw = function() {
-	if (this.on) yellow.draw(dx * this.i, dx * this.j);
-	else blue.draw(dx * this.i, dx * this.j);
-	border.draw(dx * this.i, dx * this.j);	
+	if (this.on) yellow.draw(dx * this.col, dx * this.row);
+	else blue.draw(dx * this.col, dx * this.row);
+	border.draw(dx * this.col, dx * this.row);	
 };
 
 c_obj.prototype.click = function() {
-	if (blue.click(dx * this.i, dx * this.j)) {
+	if (blue.click(dx * this.col, dx * this.row)) {
 		if (this.on) {
 			this.on = false;
 			this.tone.stop();
@@ -72,11 +69,11 @@ c_obj.prototype.click = function() {
 
 const objs = [];
 
-for (let row = 0; row < 5; ++row) {
+for (let row = 0; row < 9; ++row) {
 	const phi_tones = [];
 	objs.push(phi_tones);
-	for (let i = 0; i < row; ++i) {
-		phi_tones.push(new c_obj(i, row));
+	for (let col = 0; col < row + 2; ++col) {
+		phi_tones.push(new c_obj(col, row));
 	}
 }
 

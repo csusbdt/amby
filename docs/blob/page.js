@@ -91,9 +91,9 @@ let start_external_audio = null;
 
 const click_page = _ => {
     if (click(back)) return run_page("home");
+	else start_external_audio = null;
     if (click(volume)) run_volume();
     if (click(toggles)) on_resize();
-    start_external_audio = null;
 };
 
 const draw_page = _ => {
@@ -107,9 +107,9 @@ const draw_page = _ => {
 const run = _ => {
     if (window.stop_audio !== null && window.stop_audio !== stop_audio) {
 		window.stop_audio();
-		toggles.audio.on = false;
 		start_external_audio = window.start_audio;
 	}
+	toggles.audio.on = window.stop_audio !== null;
     on_resize = draw_page;
     on_click  = click_page;
     on_resize();
