@@ -32,12 +32,58 @@ const night_4 = new c_seq(night_dur * 16, [
 	4 / 3 * night_bf * (PHI + 0)
 ], night_bin, .8);
 
+
+const p = (b, n, i) => Math.pow(Math.pow(b, 1 / n), i);
+
+const night_5 = new c_seq(night_dur * 1 *5, [ 
+	p(PHI, 6, 0) * night_bf,
+	p(PHI, 6, 1) * night_bf,
+	p(PHI, 6, 2) * night_bf,
+	p(PHI, 6, 3) * night_bf,
+	p(PHI, 6, 4) * night_bf,
+	p(PHI, 6, 5) * night_bf,
+	p(PHI, 6, 6) * night_bf
+], night_bin, 1);
+
+const night_6 = new c_seq(night_dur * 7 *5, [
+	p(PHI, 7, 0) * night_bf,
+	p(PHI, 7, 1) * night_bf,
+	p(PHI, 7, 2) * night_bf,
+	p(PHI, 7, 3) * night_bf,
+	p(PHI, 7, 4) * night_bf,
+	p(PHI, 7, 5) * night_bf,
+	p(PHI, 7, 6) * night_bf,
+	p(PHI, 7, 7) * night_bf
+], night_bin, 1);
+
+const night_7 = new c_seq(night_dur * 9, [
+	5 / 4 * night_bf * (PHI + 0), 
+	9 / 4 * night_bf * (PHI + 0),
+	6 / 4 * night_bf * (PHI + 1), 
+	7 / 4 * night_bf * (PHI + 1),
+	6 / 4 * night_bf * (PHI + 2), 
+	4 / 4 * night_bf * (PHI + 2)
+], night_bin, .5);
+
+const night_8 = new c_seq(night_dur * 36, [
+	1 / 3 * night_bf * (PHI + 0), 
+	5 / 3 * night_bf * (PHI + 0),
+	7 / 3 * night_bf * (PHI + 0),
+	4 / 3 * night_bf * (PHI + 0)
+], night_bin, 1);
+
+
+
+
 const night_ring = new c_seq(night_dur * 1, [
 	3 / 4 * night_bf * (PHI + 2), 
 	3 / 4 * night_bf * (PHI + 2), 
 	5 / 3 * night_bf * (PHI + 0),
 	5 / 4 * night_bf * (PHI + 2)
 ], night_bin, .7);
+
+const beam_taking  = new c_seq(night_dur / 3, [ night_bf * PHI        , night_bf * PHI * PHI   ], night_bin, .5);
+const beam_putting = new c_seq(night_dur / 2, [ sp1(night_bf * PHI, 5), sp1(night_bf * PHI, 2) ], night_bin, .5);
 
 const night_group = new c_start_group(night_dur);
 
@@ -60,10 +106,12 @@ const day_a = new c_seq(day_dur * 3, [
 	sp1(day_a_f, 0), sp1(day_a_f, 3), sp1(day_a_f, 3), sp1(day_a_f, 1), sp1(day_a_f, 2) 
 ], day_bin);
 
-const day_group = new c_start_group(day_dur);
+const day_e_f = day_bf * 2;
+const day_e = new c_seq(day_dur * 9, [
+	sp1(day_e_f, 0), sp1(day_e_f, 3), sp1(day_e_f, 1), sp1(day_e_f, 2), sp1(day_e_f, 4)
+]);
 
-const beam_taking  = new c_seq(night_dur / 6, [ night_bf * PHI        , night_bf * PHI * PHI   ]);
-const beam_putting = new c_seq(night_dur / 4, [ sp1(night_bf * PHI, 2), sp1(night_bf * PHI, 0) ]);
+const day_group = new c_start_group(day_dur);
 
 const start_audio = _ => {
 	window.start_audio = null;
@@ -77,6 +125,42 @@ const stop_audio = _ => {
 	stop([ day_group, night_group ]);
 };
 
+const update_groups = _ => {
+	if (sun.state === DAY) {
+		night_group.set([]);
+		if (man.state === INSIDE_HOUSE) {
+			day_group.set([ day_center, day_a, day_accent ]);
+		} else if (man.state === OUTSIDE_HOUSE) {
+			day_group.set([ day_center, day_a ]);
+		} else if (man.state === IN_VALLEY) {
+			day_group.set([ day_center ]);
+		} else if (man.state === INSIDE_SHIP) {
+			day_group.set([ day_center, day_e, day_accent ]);
+		}
+	} else {
+		day_group.set([]);
+		if (beam.state === TAKING) {
+//			night_group.set([ beam_taking ]);
+			night_group.set([ night_5 ]);
+		} else if (beam.state === PUTTING) {
+//			night_group.set([ beam_putting ]);
+			night_group.set([ night_5, night_6 ]);
+		} else if (man.state === INSIDE_HOUSE) {
+			night_group.set([ night_5, night_6, night_7, night_8 ]);
+		} else if (man.state === OUTSIDE_HOUSE) {
+			night_group.set([ night_5, night_6, night_7 ]);
+		} else if (man.state === IN_VALLEY) {
+			night_group.set([ night_5, night_6 ]);
+		} else if (man.state === INSIDE_SHIP) {
+			if (ship.state === OVER_VALLEY) {
+				night_group.set([ night_1, night_2, night_3 ]);
+			} else {
+				night_group.set([ night_1, night_2, night_3, night_4 ]);
+			}
+		}
+	}
+};
+
 let img = n => new c_img("./man/images/" + n + ".png");
 
 const borders       = img("borders");
@@ -88,40 +172,6 @@ const audio_yellow  = audio_blue.clone_yellow();
 const green         = img("green");
 
 const audio   = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
-
-const update_groups = _ => {
-	if (sun.state === DAY) {
-		night_group.set([]);
-		if (man.state === INSIDE_HOUSE) {
-			day_group.set([ day_center, day_a, day_accent ]);
-		} else if (man.state === OUTSIDE_HOUSE) {
-			day_group.set([ day_center, day_a ]);
-		} else if (man.state === IN_VALLEY) {
-			day_group.set([ day_center ]);
-		} else if (man.state === INSIDE_SHIP) {
-			day_group.set([ ]);
-		}
-	} else {
-		day_group.set([]);
-		if (beam.state === TAKING) {
-			night_group.set([ beam_taking ]);
-		} else if (beam.state === PUTTING) {
-			night_group.set([ beam_putting ]);
-		} else if (man.state === INSIDE_HOUSE) {
-			night_group.set([]);
-		} else if (man.state === OUTSIDE_HOUSE) {
-			night_group.set([ night_1, night_2 ]);
-		} else if (man.state === IN_VALLEY) {
-			night_group.set([ night_1 ]);
-		} else if (man.state === INSIDE_SHIP) {
-			if (ship.state === OVER_VALLEY) {
-				night_group.set([ night_1, night_2, night_3 ]);
-			} else {
-				night_group.set([ night_1, night_2, night_3, night_4 ]);
-			}
-		}
-	}
-};
 
 const DAY   = 0;
 const NIGHT = 1;

@@ -217,6 +217,9 @@ window.freq = (octave_steps, base_f, steps) => {
 	return base_f * Math.pow(Math.pow(2, 1 / octave_steps), steps);
 };
 
+window.p   = (b, n, i) => Math.pow(Math.pow(b  , 1 / n), i);
+window.phi = (n, i   ) => Math.pow(Math.pow(PHI, 1 / n), i);
+
 window.draw = (o, x = 0, y = 0) => {
 	if (Array.isArray(o)) {
 		for (const i in o) {

@@ -7,6 +7,7 @@ const volume       = new c_img("./home/images/volume.png");
 const rings        = new c_img("./home/images/rings.png");
 const blob         = new c_img("./home/images/blob.png");
 const man          = new c_img("./home/images/man.png");
+const tones        = new c_img("./home/images/tones.png");
 
 const audio_blue   = new c_img("./home/images/audio.png");
 const audio_yellow = audio_blue.clone_yellow();
@@ -16,6 +17,7 @@ const click_page = _ => {
     if (click(rings)) return run_page("rings");
     if (click(blob)) return run_page("blob");
     if (click(man)) return run_page("man");
+    if (click(tones)) return run_page("tones");
     if (click(volume)) run_volume();
     click(audio);
     on_resize();
@@ -28,6 +30,7 @@ const draw_page = _ => {
     draw(rings);
     draw(blob);
     draw(man);
+    draw(tones);
     draw(borders);
 };
 
