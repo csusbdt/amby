@@ -1,5 +1,4 @@
-function c_start_group(dur, members = []) {
-	this.dur     = dur;
+function c_start_group(members = []) {
 	this.members = members;
 }
 

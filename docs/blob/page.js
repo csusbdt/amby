@@ -12,7 +12,7 @@ const toggles = [];
 const bf            = 90;
 const bin           = bf * Math.pow(PHI, -7);
 const dur           = 1000;
-const start_group   = new c_start_group(dur);
+const start_group   = new c_start_group();
 
 const center = new c_seq(dur, [ 
 	sp1(bf, 0), sp1(bf, 3), sp1(bf, 3), sp1(bf, 1), sp1(bf, 2) 

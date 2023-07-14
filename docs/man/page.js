@@ -4,88 +4,84 @@ import c_start_group from "../common/start_group.js";
 import c_seq         from "../common/seq.js";
 import run_volume    from "../volume/page.js";
 
+const group = new c_start_group();
+
 // night group taken from ring center
 
-const night_bf    = 90;
-const night_bin   = night_bf * Math.pow(PHI, -7);
-const night_dur   = 1000;
+const ring_bf    = 90;
+const ring_bin   = ring_bf * Math.pow(PHI, -7);
+const ring_dur   = 1000;
 
-const night_1 = new c_seq(night_dur * 1, [ 
-	1 / 1 * night_bf * (PHI + 0), 
-	1 / 1 * night_bf * (PHI + 1)
-], night_bin);
+const ring_1 = new c_seq(ring_dur * 1, [ 
+	1 / 1 * ring_bf * (PHI + 0), 
+	1 / 1 * ring_bf * (PHI + 1)
+], ring_bin);
 
-const night_2 = new c_seq(night_dur * 2, [
-	2 / 3 * night_bf * (PHI + 0), 
-	4 / 3 * night_bf * (PHI - 1)
-], night_bin);
+const ring_2 = new c_seq(ring_dur * 2, [
+	2 / 3 * ring_bf * (PHI + 0), 
+	4 / 3 * ring_bf * (PHI - 1)
+], ring_bin);
 
-const night_3 = new c_seq(night_dur * 4, [
-	6 / 3 * night_bf * (PHI - 0), 
-	7 / 3 * night_bf * (PHI - 0)
-], night_bin);
+const ring_3 = new c_seq(ring_dur * 4, [
+	6 / 3 * ring_bf * (PHI - 0), 
+	7 / 3 * ring_bf * (PHI - 0)
+], ring_bin);
 
-const night_4 = new c_seq(night_dur * 16, [
-	1 / 3 * night_bf * (PHI + 0), 
-	5 / 3 * night_bf * (PHI + 0),
-	7 / 3 * night_bf * (PHI + 0),
-	4 / 3 * night_bf * (PHI + 0)
-], night_bin, .8);
-
+const ring_4 = new c_seq(ring_dur * 16, [
+	1 / 3 * ring_bf * (PHI + 0), 
+	5 / 3 * ring_bf * (PHI + 0),
+	7 / 3 * ring_bf * (PHI + 0),
+	4 / 3 * ring_bf * (PHI + 0)
+], ring_bin, .8);
 
 const p = (b, n, i) => Math.pow(Math.pow(b, 1 / n), i);
 
-const night_5 = new c_seq(night_dur * 1 *5, [ 
-	p(PHI, 6, 0) * night_bf,
-	p(PHI, 6, 1) * night_bf,
-	p(PHI, 6, 2) * night_bf,
-	p(PHI, 6, 3) * night_bf,
-	p(PHI, 6, 4) * night_bf,
-	p(PHI, 6, 5) * night_bf,
-	p(PHI, 6, 6) * night_bf
-], night_bin, 1);
+const ring_5 = new c_seq(ring_dur * 1 *5, [ 
+	p(PHI, 6, 0) * ring_bf,
+	p(PHI, 6, 1) * ring_bf,
+	p(PHI, 6, 2) * ring_bf,
+	p(PHI, 6, 3) * ring_bf,
+	p(PHI, 6, 4) * ring_bf,
+	p(PHI, 6, 5) * ring_bf,
+	p(PHI, 6, 6) * ring_bf
+], ring_bin, 1);
 
-const night_6 = new c_seq(night_dur * 7 *5, [
-	p(PHI, 7, 0) * night_bf,
-	p(PHI, 7, 1) * night_bf,
-	p(PHI, 7, 2) * night_bf,
-	p(PHI, 7, 3) * night_bf,
-	p(PHI, 7, 4) * night_bf,
-	p(PHI, 7, 5) * night_bf,
-	p(PHI, 7, 6) * night_bf,
-	p(PHI, 7, 7) * night_bf
-], night_bin, 1);
+const ring_6 = new c_seq(ring_dur * 7 *5, [
+	p(PHI, 7, 0) * ring_bf,
+	p(PHI, 7, 1) * ring_bf,
+	p(PHI, 7, 2) * ring_bf,
+	p(PHI, 7, 3) * ring_bf,
+	p(PHI, 7, 4) * ring_bf,
+	p(PHI, 7, 5) * ring_bf,
+	p(PHI, 7, 6) * ring_bf,
+	p(PHI, 7, 7) * ring_bf
+], ring_bin, 1);
 
-const night_7 = new c_seq(night_dur * 9, [
-	5 / 4 * night_bf * (PHI + 0), 
-	9 / 4 * night_bf * (PHI + 0),
-	6 / 4 * night_bf * (PHI + 1), 
-	7 / 4 * night_bf * (PHI + 1),
-	6 / 4 * night_bf * (PHI + 2), 
-	4 / 4 * night_bf * (PHI + 2)
-], night_bin, .5);
+const ring_7 = new c_seq(ring_dur * 9, [
+	5 / 4 * ring_bf * (PHI + 0), 
+	9 / 4 * ring_bf * (PHI + 0),
+	6 / 4 * ring_bf * (PHI + 1), 
+	7 / 4 * ring_bf * (PHI + 1),
+	6 / 4 * ring_bf * (PHI + 2), 
+	4 / 4 * ring_bf * (PHI + 2)
+], ring_bin, .5);
 
-const night_8 = new c_seq(night_dur * 36, [
-	1 / 3 * night_bf * (PHI + 0), 
-	5 / 3 * night_bf * (PHI + 0),
-	7 / 3 * night_bf * (PHI + 0),
-	4 / 3 * night_bf * (PHI + 0)
-], night_bin, 1);
+const ring_8 = new c_seq(ring_dur * 36, [
+	1 / 3 * ring_bf * (PHI + 0), 
+	5 / 3 * ring_bf * (PHI + 0),
+	7 / 3 * ring_bf * (PHI + 0),
+	4 / 3 * ring_bf * (PHI + 0)
+], ring_bin, 1);
 
+const ring_ring = new c_seq(ring_dur * 1, [
+	3 / 4 * ring_bf * (PHI + 2), 
+	3 / 4 * ring_bf * (PHI + 2), 
+	5 / 3 * ring_bf * (PHI + 0),
+	5 / 4 * ring_bf * (PHI + 2)
+], ring_bin, .7);
 
-
-
-const night_ring = new c_seq(night_dur * 1, [
-	3 / 4 * night_bf * (PHI + 2), 
-	3 / 4 * night_bf * (PHI + 2), 
-	5 / 3 * night_bf * (PHI + 0),
-	5 / 4 * night_bf * (PHI + 2)
-], night_bin, .7);
-
-const beam_taking  = new c_seq(night_dur / 3, [ night_bf * PHI        , night_bf * PHI * PHI   ], night_bin, .5);
-const beam_putting = new c_seq(night_dur / 2, [ sp1(night_bf * PHI, 5), sp1(night_bf * PHI, 2) ], night_bin, .5);
-
-const night_group = new c_start_group(night_dur);
+// const beam_taking  = new c_seq(ring_dur / 3, [ night_bf * PHI        , night_bf * PHI * PHI   ], night_bin, .5);
+// const beam_putting = new c_seq(night_dur / 2, [ sp1(night_bf * PHI, 5), sp1(night_bf * PHI, 2) ], night_bin, .5);
 
 // day group
 
@@ -121,55 +117,42 @@ const day_e = new c_seq(day_dur * 9, [
 	sp1(day_e_f, 0), sp1(day_e_f, 3), sp1(day_e_f, 1), sp1(day_e_f, 2), sp1(day_e_f, 4)
 ], day_bin);
 
-const day_group = new c_start_group(day_dur);
-
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
-	start([ day_group, night_group ]);
+	start(group);
 };
 
 const stop_audio = _ => {
 	window.start_audio = start_audio;
 	window.stop_audio  = null;
-	stop([ day_group, night_group ]);
+	stop(group);
 };
 
 const update_groups = _ => {
 	if (sun.state === DAY) {
-		night_group.set([]);
 		if (man.state === INSIDE_HOUSE) {
-			day_group.set([ day_center, day_a, day_b, day_c, day_accent ]);
+			group.set([ day_center, day_a, day_b, day_c ]);
 		} else if (man.state === OUTSIDE_HOUSE) {
-			day_group.set([ day_center, day_c ]);
+			group.set([ day_center, day_c ]);
 		} else if (man.state === IN_VALLEY) {
-			day_group.set([ day_center, day_a, day_accent ]);
+			group.set([ day_center, day_a ]);
 		} else if (man.state === INSIDE_SHIP) {
-			day_group.set([ day_center, day_e, day_accent ]);
+			group.set([ ring_1, ring_2, ring_3, ring_4 ]);
 		}
 	} else {
-		day_group.set([]);
 		if (beam.state === TAKING) {
-			night_group.set([ beam_taking ]);
-//			night_group.set([ night_5 ]);
+			group.set([ day_center, day_e ]);
 		} else if (beam.state === PUTTING) {
-			night_group.set([ beam_putting ]);
-//			night_group.set([ night_5, night_6 ]);
+			group.set([ day_center, day_e, day_accent ]);
 		} else if (man.state === INSIDE_HOUSE) {
-//			night_group.set([ night_5, night_6, night_7, night_8 ]);
-			night_group.set([]);
+			group.set([ day_center, day_a, day_b, day_c, day_accent ]);
 		} else if (man.state === OUTSIDE_HOUSE) {
-//			night_group.set([ night_5, night_6, night_7 ]);
-			night_group.set([]);
+			group.set([ day_center, day_c, day_accent ]);
 		} else if (man.state === IN_VALLEY) {
-//			night_group.set([ night_5, night_6 ]);
-			night_group.set([]);
+			group.set([ day_center, day_a, day_accent ]);
 		} else if (man.state === INSIDE_SHIP) {
-//			if (ship.state === OVER_VALLEY) {
-//				night_group.set([ night_1, night_2, night_3 ]);
-//			} else {
-				night_group.set([ night_1, night_2, night_3, night_4 ]);
-//			}
+			group.set([ ring_1, ring_2, ring_3, ring_4 ]);
 		}
 	}
 };
@@ -316,7 +299,7 @@ const house = {
 			} else if (man.state === OUTSIDE_HOUSE) {
 				man.state = INSIDE_HOUSE;
 			} else if (man.state === IN_VALLEY) {
-				man.state = OUTSIDE_HOUSE;
+				man.state = INSIDE_HOUSE;
 			} else if (man.state === INSIDE_SHIP) {
 				if (sun.state === NIGHT) {
 					if (ship.state === OVER_VALLEY) {
