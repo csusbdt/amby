@@ -13,7 +13,8 @@ c_tone.prototype.start = function() {
 	this.g = audio.createGain();
 	this.g.connect(gain);
 	this.g.gain.value = 0;
-	const merger = new ChannelMergerNode(audio);
+	//const merger = new ChannelMergerNode(audio);
+	const merger = audio.createChannelMerger();
 	merger.connect(this.g);
 	this.o_left  = audio.createOscillator();
 	this.o_right = audio.createOscillator();
