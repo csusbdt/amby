@@ -42,13 +42,15 @@ window.log = m => console.log(m);
 //
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-let app_state = localStorage.getItem('music2');
+const app_name = "amby";
+
+let app_state = localStorage.getItem(app_name);
 if (app_state === null) app_state = { version: "0", page: "home" };
 else app_state = JSON.parse(app_state);
 
 window.set = (key, value) => {
 	app_state[key] = value;
-	localStorage.setItem('music2', JSON.stringify(app_state));
+	localStorage.setItem(app_name, JSON.stringify(app_state));
 };
 
 window.get = (key, _default) => {

@@ -17,7 +17,7 @@ const click_page = _ => {
     if (click(rings)) return run_page("rings");
     if (click(blob)) return run_page("blob");
     if (click(man)) return run_page("man");
-    if (click(tones)) return run_page("tones");
+    if (click(tones)) return run_page("bubble");
     if (click(volume)) run_volume();
     click(audio);
     on_resize();
