@@ -19,79 +19,54 @@ const n1 = 3;
 const center_1 = new c_seq(dur * 1, [ 
 	bf * p(b1, n1, 0), 
 	bf * p(b1, n1, 1) 
-], bin);
+], bin, .7);
 
 const center_2 = new c_seq(dur * 4, [
 	bf * p(2, 5, 7), 
 	bf * p(2, 5, 5), 
 	bf * p(2, 5, 3), 
 	bf * p(2, 5, 4) 
-], bin, .5);
+], bin, 1);
 
-const center = [ center_1, center_2 ];
-
-const b2 = 2;
-const n2 = 4;
 const inner_1 = new c_seq(dur * 2, [
 	bf * 2 * phi(8, 0),
 	bf * 2 * phi(8, 3)
-], bin, .7);
+], bin, 1);
 
-const inner_ring = [ inner_1 ];
+const inner_2 = new c_seq(dur * 8, [
+	bf * p(2, 5, 7), 
+	bf * p(2, 5, 5), 
+	bf * p(2, 5, 3), 
+	bf * p(2, 5, 4) 
+], bin, 1);
 
+const outer_1 = new c_seq(dur * 1, [
+	bf * p(2, 8, 11), 
+	bf * p(2, 8, 8 ), 
+	bf * p(2, 8, 14), 
+	bf * p(2, 8, 8 ),
+	bf * p(2, 8, 12), 
+	bf * p(2, 8, 8 ), 
+	bf * p(2, 8, 11), 
+	bf * p(2, 8, 7 ) 
+], bin, 1);
 
+const outer_2 = new c_seq(dur * 3, [
+	bf * p(PHI, 9, 2), 
+	bf * p(PHI, 9, 5), 
+	bf * p(PHI, 9, 0), 
+	bf * p(PHI, 9, 3) 
+], bin, 1);
 
-const b3 = 2;
-const n3 = 5;
-const outer_1 = new c_seq(dur * 4, [
-	bf * p(b3, n3, 7), 
-	bf * p(b3, n3, 5), 
-	bf * p(b3, n3, 3), 
-	bf * p(b3, n3, 4) 
-], bin, .5);
+const outer_3 = new c_seq(dur * 12, [
+	bf * p(2, 7, 13), 
+	bf * p(2, 7, 17), 
+	bf * p(2, 7, 19) 
+], bin, 1);
 
-const outer_ring = [ outer_1 ];
-
-
-
-
-
-
-const center_3 = new c_seq(dur * 2 * 5, [
-], bin);
-
-// const center_1 = new c_seq(dur * 1, [ 
-// 	1 / 1 * bf * (PHI + 0), 
-// 	1 / 1 * bf * (PHI + 1)
-// ], bin);
-
-// const center_2 = new c_seq(dur * 2, [
-// 	2 / 3 * bf * (PHI + 0), 
-// 	4 / 3 * bf * (PHI - 1)
-// ], bin);
-
-// const center_3 = new c_seq(dur * 4, [
-// 	6 / 3 * bf * (PHI - 0), 
-// 	7 / 3 * bf * (PHI - 0)
-// ], bin);
-
-//const center = [ center_1, center_2, center_3 ];
-//const center = [ center_1, center_2 ];
-
-// const ring = new c_seq(dur * 1, [
-// 	3 / 4 * bf * (PHI + 2), 
-// 	3 / 4 * bf * (PHI + 2), 
-// 	5 / 3 * bf * (PHI + 0),
-// 	5 / 4 * bf * (PHI + 2)
-// ], bin, .7);
-
-// const outer = new c_seq(dur * 12, [
-// 	11 / 9 * bf * (PHI - 0),
-// 	16 / 9 * bf * (PHI - 0),
-// 	21 / 9 * bf * (PHI - 0),
-// 	26 / 9 * bf * (PHI - 0),
-// 	31 / 9 * bf * (PHI - 0)
-// ], bin, .5);
+const center     = [ center_1, center_2         ];
+const inner_ring = [ inner_1 , inner_2          ];
+const outer_ring = [ outer_1 , outer_2, outer_3 ];
 
 const names = [ "audio", "center", "ring", "outer" ];
 names.forEach(n => {
