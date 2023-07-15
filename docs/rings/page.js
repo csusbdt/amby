@@ -49,24 +49,25 @@ const outer_1 = new c_seq(dur * 1, [
 	bf * p(2, 8, 8 ), 
 	bf * p(2, 8, 11), 
 	bf * p(2, 8, 7 ) 
-], bin, 1);
+], bin, .5);
 
 const outer_2 = new c_seq(dur * 3, [
 	bf * p(PHI, 9, 2), 
 	bf * p(PHI, 9, 5), 
 	bf * p(PHI, 9, 0), 
 	bf * p(PHI, 9, 3) 
-], bin, 1);
+], bin, .5);
 
 const outer_3 = new c_seq(dur * 12, [
 	bf * p(2, 7, 13), 
 	bf * p(2, 7, 17), 
 	bf * p(2, 7, 19) 
-], bin, 1);
+], bin, .3);
 
 const center     = [ center_1, center_2         ];
 const inner_ring = [ inner_1 , inner_2          ];
-const outer_ring = [ outer_1 , outer_2, outer_3 ];
+//const outer_ring = [ outer_1 , outer_2, outer_3 ];
+const outer_ring = [ outer_2 ];
 
 const names = [ "audio", "center", "ring", "outer" ];
 names.forEach(n => {

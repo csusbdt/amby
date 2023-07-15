@@ -32,69 +32,77 @@ const audio_yellow  = audio_blue.clone_yellow();
 
 const audio = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
 
-const bubble_border = [];
-const bubble_blue   = [];
-const bubble_yellow = [];
-for (let i = 0; i < 4; ++i) {
-	bubble_border.push(img("border_" + i));
-	bubble_blue.push(img("blue_" + i));
-	bubble_yellow.push(bubble_blue[i].clone_yellow());
-}
-let bubble_n  = 0;
-let bubble_i  = null;
-let bubble_id = null;
+const speed  = 100;
+const BLUE   = 0;
+const YELLOW = 1;
 
-const draw_bubble = _ => {
-	if (bubble_n === 0) {
-		draw(bubble_blue[0]);
-		if (bubble_i !== null) {
-			draw(bubble_yellow[bubble_i]);
-			draw(bubble_border[bubble_i]);
+function c_obj(n) {
+	this.border  = img(n + "_border");
+	this.blue    = img(n + "_blue  ");
+	this.yellow  = img(n + "_yellow");
+	this.borders = [];
+	this.blues   = [];
+	this.yellows = [];
+	for (let i = 0; i < 3; ++i) {
+		this.borders.push(img(n + "_border_" + i));
+		this.blues  .push(img(n + "_blue_"   + i));
+		this.yellows.push(blues[i].clone_yellow());
+	}	
+	this.state   = BLUE;
+	this.i       = null;
+	this.id      = null;
+}
+
+c_obj.prototype.draw = function() {
+	if (this.state === BLUE) {
+		this.blue.draw();
+		if (this.i !== null) {
+			this.blues[this.i].draw();
+			this.borders[this.i].draw();
 		}
 	} else {
-		if (bubble_i === null) draw(bubble_yellow[0]);
-		else {
-			draw(bubble_blue[0]);
-			draw(bubble_yellow[bubble_i]);
-			draw(bubble_border[bubble_i]);
+		this.yellow.draw();
+		if (this.i !== null) {
+			this.yellows[this.i].draw();
+			this.borders[this.i].draw();
 		}
 	}
-	draw(bubble_border[0]);
 };
 
-const next_speed = 100;
-
-const bubble_next = _ => {
-	if (bubble_n === 0) {
-		if (++bubble_i === bubble_blue.length) {
-			bubble_i  = null;
-			bubble_id = null;
-			bubble_n  = 1;
+c_obj.prototype.next = function() {
+	if (this.state === BLUE) {
+		if (++this.i === this.blues.length) {
+			this.i     = null;
+			this.id    = null;
+			this.state = YELLOW;
 		} else {
-			bubble_id = setTimeout(bubble_next, next_speed);
+			this.id = setTimeout(this.next.bind(this), speed);
 		}
 	} else {
-		if (--bubble_i === 0) {
-			bubble_i  = null;
-			bubble_id = null;
-			bubble_n  = 0;
+		if (--this.i === -1) {
+			this.i     = null;
+			this.id    = null;
+			this.state = BLUE;
 		} else {
-			bubble_id = setTimeout(bubble_next, next_speed);
+			this.id = setTimeout(this.next.bind(this), speed);
 		}
 	}
 	on_resize();
 };
 
-const click_bubble = _ => {
-	if (bubble_i === null && click(bubble_blue[0])) {
-		bubble_i = bubble_n === 0 ? 1 : bubble_blue.length - 1;
-		bubble_id = setTimeout(bubble_next, next_speed);
+c_obj.prototype.click = function() {
+	if (this.i === null && this.blue.click()) {
+		if (this.state === BLUE) {
+			this.i = 0; 
+		} else {
+			this.i = this.blue.length - 1;
+		}
+		this.id = setTimeout(this.next.bind(this), speed);
 		return true;
 	} else return false;
 };
 
-
-
+const objs = [ new c_obj("") ];
 
 const draw_objs = _ => {
 	draw_bubble();
