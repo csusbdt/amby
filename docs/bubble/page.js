@@ -15,9 +15,43 @@ const s_1 = new c_seq(dur * 1, [
 	bf * p(2, n1, 0), 
 	bf * p(2, n1, 2), 
 	bf * p(2, n1, 5), 
-	bf * p(2, n1, 4), 
+	bf * p(2, n1, 5), 
 ], bin, 1);
 
+const s_2 = new c_seq(dur * 4, [ 
+	bf * p(2, n1, 12), 
+	bf * p(2, n1, 10) 
+], bin, 1);
+
+const s_3 = new c_seq(dur * 16, [ 
+	0, 
+	bf * p(2, n1, 22), 
+	bf * p(2, n1, 18), 
+], bin, 1);
+
+const s_4 = new c_seq(dur * 2, [ 
+	0, 0, 0, 0, 
+	0, 0, 0, 0, 
+	0, 0, 0, 0, 
+	0, 0, 0, 0, 
+	0, 0, 0, 0, 
+	0, 0, 0, 0, 
+	0, 0, 0, 0, 
+	0, 0, 0, 0, 
+	bf * p(2, n1, 33), 
+	bf * p(2, n1, 31), 
+	bf * p(2, n1, 27), 
+	bf * p(2, n1, 20),	
+	0, 0, 0, 0, 
+	0, 0, 0, 0, 
+	bf * p(2, n1, 27), 
+	bf * p(2, n1, 22),
+	0, 0, 0, 0, 
+	0, 0, 0, 0	
+], bin, 1);
+
+
+const seqs = [ s_1, s_2, s_3, s_4 ];
 
 
 const start_audio = _ => {
@@ -58,8 +92,7 @@ function c_obj(n, on_yellow = null, on_blue = null) {
 	for (let i = 0; i < 3; ++i) {
 		this.borders.push(img(n + "_border_" + i));
 		this.blues  .push(img(n + "_blue_"   + i));
-		this.yellows.push(img(n + "_blue_"   + i).clone_yellow());
-//		this.yellows.push(this.blues[i].clone_yellow());
+		this.yellows.push(this.blues[i].clone_yellow());
 	}	
 	this.state   = BLUE;
 	this.i       = null;
@@ -119,8 +152,8 @@ c_obj.prototype.click = function() {
 	} else return false;
 };
 
-const center_on_yellow = _ => group.add(s_1);
-const center_on_blue   = _ => group.remove(s_1);
+const center_on_yellow = _ => group.add(seqs);
+const center_on_blue   = _ => group.remove(seqs);
 
 const objs = [ new c_obj("big", center_on_yellow, center_on_blue) ];
 
