@@ -88,9 +88,17 @@ window.init_audio = _ => {
 		audio.resume();
 	}
 	if (main_gain === null) {
+		const compressor = audio.createDynamicsCompressor();
+		compressor.threshold.setValueAtTime( -50, audio.currentTime);
+		compressor.knee     .setValueAtTime(  40, audio.currentTime);
+		compressor.ratio    .setValueAtTime(  12, audio.currentTime);
+		compressor.attack   .setValueAtTime(   0, audio.currentTime);
+		compressor.release  .setValueAtTime(0.25, audio.currentTime);
+		compressor.connect(audio.destination);
 		main_gain = audio.createGain();
 		main_gain.gain.value = 1;
-		main_gain.connect(audio.destination);
+//		main_gain.connect(audio.destination);
+		main_gain.connect(compressor);
 		gain = audio.createGain();
 		gain.gain.value = get('volume', Math.pow(2, -5));
 		gain.connect(main_gain);

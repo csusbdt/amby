@@ -10,61 +10,25 @@ const bin   = bf * Math.pow(PHI, -7);
 const dur   = 1000;
 const group = new c_start_group();
 
-const n1 = 12;
 const s_1 = new c_seq(dur * 1, [ 
-	bf * p(2, n1, 0), 
-	bf * p(2, n1, 3), 
-	bf * p(2, n1, 6), 
-	bf * p(2, n1, 6), 
-], bin, .6);
+	bf * p(2, 16, 12), 
+	bf * p(2, 16, 15), 
+	bf * p(2, 16, 8), 
+	bf * p(2, 16, 11) 
+], bin, 1);
 
-const s_2 = new c_seq(dur * 4, [ 
-	bf * p(2, n1, 12), 
-	bf * p(2, n1, 10) 
-], bin, .9);
+const s_2 = new c_seq(dur * 8, [ 
+	bf * p(2, 16, 2),
+	bf * p(2, 16, -2)
+], bin, .7);
 
 const s_3 = new c_seq(dur * 16, [ 
 	0, 
-	bf * p(2, n1, 22), 
-	bf * p(2, n1, 18), 
+	bf * p(2, 16, 22), 
+	bf * p(2, 16, 18), 
 ], bin, .8);
 
-const s_4 = new c_seq(dur * 2, [ 
-	// 0, 0, 0, 0, 0, 0, 0, 0, 
-	// 0, 0, 0, 0, 0, 0, 0, 0, 
-	// 0, 0, 0, 0, 0, 0, 0, 0, 
-	// bf * p(2, n1, 27), 
-	// bf * p(2, n1, 24), 
-	// bf * p(2, n1, 26), 
-	// bf * p(2, n1, 21),	
-	// 0, 0, 0, 0, 0, 0, 0, 0, 
-	// bf * p(2, n1, 26), 
-	// bf * p(2, n1, 21),
-	// 0, 0, 0, 0, 0, 0, 0, 0	
-], bin, .6);
-
-const s_5 = new c_seq(dur * 1 * 2 * 2, [ 
-	// bf * p(2, n1, 10), 
-	// bf * p(2, n1, 18) 
-	0, 
-	bf * p(2, n1, 3) 
-], bin, .4);
-
-const s_6 = new c_seq(dur * 1 * 2 * 2 * 2, [ 
-	// bf * p(2, n1, 22), 
-	// bf * p(2, n1, 18) 
-	440,
-	bf * p(2, n1, 18),
-	0
-], bin, .5);
-
-const s_7 = new c_seq(dur * 1 * 2 * 2 * 2 * 2, [ 
-	bf * p(2, n1, 22), 
-	bf * p(2, n1, 12) 
-], bin, .4);
-
-const seqs        = [ s_1, s_2, s_3 ];
-const little_seqs = [ s_6, s_7 ];
+const seqs = [ s_1, s_2, s_3 ];
 
 const start_audio = _ => {
 	window.start_audio = null;
@@ -88,12 +52,7 @@ const audio_yellow  = audio_blue.clone_yellow();
 
 const audio = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
 
-const little_border    = img("little_border");
-const little_blue      = img("little_blue");
-const little_yellow    = little_blue.clone_yellow();
-const little_on_yellow = _ => group.add(little_seqs);
-const little_on_blue   = _ => group.remove(little_seqs);
-const little = new c_toggle(little_blue, little_yellow, little_border, little_on_yellow, little_on_blue);
+img = n => new c_img("./block/images/" + n + ".png");
 
 const speed  = 100;
 const BLUE   = 0;
@@ -120,16 +79,17 @@ function c_obj(n, on_yellow = null, on_blue = null) {
 
 c_obj.prototype.draw = function() {
 	if (this.state === BLUE) {
-		this.blue.draw();
-		if (this.i !== null) {
-			this.yellows[this.i].draw();
+		if (this.i === null) {
+			this.blue.draw();
+		} else {
+			this.yellow.draw();
+			this.blues[this.i].draw();
 			this.borders[this.i].draw();
 		}
 	} else {
 		this.yellow.draw();
 		if (this.i !== null) {
-			this.blue.draw();
-			this.yellows[this.i].draw();
+			this.blues[this.i].draw();
 			this.borders[this.i].draw();
 		}
 	}
@@ -171,21 +131,17 @@ c_obj.prototype.click = function() {
 	} else return false;
 };
 
-const center_on_yellow = _ => group.add(seqs);
-const center_on_blue   = _ => { group.remove_all(); little.on = false; }
+const block_on_yellow = _ => group.add(seqs);
+const block_on_blue   = _ => { group.remove_all(); }
 
-const big = new c_obj("big", center_on_yellow, center_on_blue);
+const block = new c_obj("block", block_on_yellow, block_on_blue);
 
 const draw_objs = _ => {
-	draw(big);
-	if (big.state === YELLOW) draw(little);
+	draw(block);
 };
 
 const click_objs = _ => {
-	if (click(big)) return true;
-	if (big.state === YELLOW) {
-		if (click(little)) return true;
-	}
+	if (click(block)) return true;
 	return false;
 };
 
