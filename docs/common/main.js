@@ -97,7 +97,6 @@ window.init_audio = _ => {
 		compressor.connect(audio.destination);
 		main_gain = audio.createGain();
 		main_gain.gain.value = 1;
-//		main_gain.connect(audio.destination);
 		main_gain.connect(compressor);
 		gain = audio.createGain();
 		gain.gain.value = get('volume', Math.pow(2, -5));

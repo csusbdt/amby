@@ -131,8 +131,21 @@ c_obj.prototype.click = function() {
 	} else return false;
 };
 
-const block_on_yellow = _ => group.add(seqs);
-const block_on_blue   = _ => { group.remove_all(); }
+const block_on_yellow = _ => { 
+	group.add(seqs);
+	if (window.stop_audio !== stop_audio) {
+		start_audio();
+		audio.on = true;
+	}
+};
+
+const block_on_blue   = _ => { 
+	group.remove_all(); 
+	if (window.stop_audio === stop_audio) {
+		stop_audio();
+		audio.on = false;
+	} 
+};
 
 const block = new c_obj("block", block_on_yellow, block_on_blue);
 
