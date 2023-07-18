@@ -16,8 +16,19 @@ c_seq.prototype.set_b = function(b) {
 };
 
 c_seq.prototype.next = function() {
+	const current_f = this.fs[this.i];	
 	if (++this.i === this.fs.length) this.i = 0;
-	this.tone.set_f(this.fs[this.i]);
+	if (current_f === 0) {
+		if (this.fs[this.i] !== 0) {
+			this.tone.set_fv(this.fs[this.i], this.v);
+		}
+	} else {
+		if (this.fs[this.i] === 0) {
+			this.tone.set_v(0);
+		} else {
+			this.tone.set_f(this.fs[this.i]);
+		}
+	}
 	this.id = setTimeout(c_seq.prototype.next.bind(this), this.dur);
 };
 

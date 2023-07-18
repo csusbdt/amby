@@ -10,61 +10,32 @@ const bin   = bf * Math.pow(PHI, -7);
 const dur   = 1000;
 const group = new c_start_group();
 
-const n1 = 12;
 const s_1 = new c_seq(dur * 1, [ 
-	bf * p(2, n1, 0), 
-	bf * p(2, n1, 3), 
-	bf * p(2, n1, 6), 
-	bf * p(2, n1, 6), 
+	bf * p(2, 16, 0), 
+	bf * p(2, 16, 4), 
+	bf * p(2, 16, 8), 
+	bf * p(2, 16, 8), 
+	bf * p(2, 16, -2), 
+	bf * p(2, 16, 2), 
+	bf * p(2, 16, 6), 
+	bf * p(2, 16, 6)
 ], bin, .6);
 
-const s_2 = new c_seq(dur * 4, [ 
-	bf * p(2, n1, 12), 
-	bf * p(2, n1, 10) 
-], bin, .9);
+const s_2 = new c_seq(dur * 8, [
+	0,
+	bf * p(2, 16, 25), 
+	bf * p(2, 16, 20), 
+	bf * p(2, 16, 17), 
+	bf * p(2, 16, 14), 
+], bin, 1);
 
-const s_3 = new c_seq(dur * 16, [ 
-	0, 
-	bf * p(2, n1, 22), 
-	bf * p(2, n1, 18), 
+const s_3 = new c_seq(dur * 40, [ 
+	bf * p(2, 20, 25), 
+	bf * p(2, 20, 29)
 ], bin, .8);
 
-const s_4 = new c_seq(dur * 2, [ 
-	// 0, 0, 0, 0, 0, 0, 0, 0, 
-	// 0, 0, 0, 0, 0, 0, 0, 0, 
-	// 0, 0, 0, 0, 0, 0, 0, 0, 
-	// bf * p(2, n1, 27), 
-	// bf * p(2, n1, 24), 
-	// bf * p(2, n1, 26), 
-	// bf * p(2, n1, 21),	
-	// 0, 0, 0, 0, 0, 0, 0, 0, 
-	// bf * p(2, n1, 26), 
-	// bf * p(2, n1, 21),
-	// 0, 0, 0, 0, 0, 0, 0, 0	
-], bin, .6);
-
-const s_5 = new c_seq(dur * 1 * 2 * 2, [ 
-	// bf * p(2, n1, 10), 
-	// bf * p(2, n1, 18) 
-	0, 
-	bf * p(2, n1, 3) 
-], bin, .4);
-
-const s_6 = new c_seq(dur * 1 * 2 * 2 * 2, [ 
-	// bf * p(2, n1, 22), 
-	// bf * p(2, n1, 18) 
-	440,
-	bf * p(2, n1, 18),
-	0
-], bin, .5);
-
-const s_7 = new c_seq(dur * 1 * 2 * 2 * 2 * 2, [ 
-	bf * p(2, n1, 22), 
-	bf * p(2, n1, 12) 
-], bin, .4);
-
-const seqs        = [ s_1, s_2, s_3 ];
-const little_seqs = [ s_6, s_7 ];
+const seqs        = [ s_1, s_2 ];
+const little_seqs = [ s_3 ];
 
 const start_audio = _ => {
 	window.start_audio = null;
@@ -171,8 +142,22 @@ c_obj.prototype.click = function() {
 	} else return false;
 };
 
-const center_on_yellow = _ => group.add(seqs);
-const center_on_blue   = _ => { group.remove_all(); little.on = false; }
+const center_on_yellow = _ => { 
+	group.add(seqs);
+	if (window.stop_audio !== stop_audio) {
+		start_audio();
+		audio.on = true;
+	}
+};
+
+const center_on_blue   = _ => { 
+	group.remove_all(); 
+	little.on = false;
+	if (window.stop_audio === stop_audio) {
+		stop_audio();
+		audio.on = false;
+	} 
+};
 
 const big = new c_obj("big", center_on_yellow, center_on_blue);
 
