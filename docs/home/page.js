@@ -6,7 +6,7 @@ const borders      = new c_img("./home/images/borders.png");
 const volume       = new c_img("./home/images/volume.png");
 const rings        = new c_img("./home/images/rings.png");
 const blob         = new c_img("./home/images/blob.png");
-const man          = new c_img("./home/images/man.png");
+const ufo          = new c_img("./home/images/ufo.png");
 const tones        = new c_img("./home/images/tones.png");
 const circle       = new c_img("./home/images/circle.png");
 const block        = new c_img("./home/images/block.png");
@@ -18,7 +18,7 @@ const audio        = new c_toggle(audio_blue, audio_yellow, null, _ => window.st
 const click_page = _ => {
     if (click(rings)) return run_page("rings");
     if (click(blob)) return run_page("blob");
-    if (click(man)) return run_page("man");
+    if (click(ufo)) return run_page("ufo");
     if (click(tones)) return run_page("bubble");
     if (click(circle)) return run_page("circle");
     if (click(block)) return run_page("block");
@@ -33,7 +33,7 @@ const draw_page = _ => {
     draw(volume);
     draw(rings);
     draw(blob);
-    draw(man);
+    draw(ufo);
     draw(tones);
     draw(circle);
     draw(block);
