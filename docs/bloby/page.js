@@ -34,8 +34,8 @@ const s_4 = new c_seq(dur * 2, [
 	0, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	bf * p(2, n1, 33), 
-	bf * p(2, n1, 31), 
+	// bf * p(2, n1, 33), 
+	// bf * p(2, n1, 31), 
 	bf * p(2, n1, 27), 
 	bf * p(2, n1, 20),	
 	0, 0, 0, 0, 0, 0, 0, 0, 
@@ -60,7 +60,7 @@ const stop_audio = _ => {
 	stop(group);
 };
 
-let img = n => new c_img("./circle/images/" + n + ".png");
+let img = n => new c_img("./bloby/images/" + n + ".png");
 
 const borders       = img("borders");
 const back          = img("back"   );
@@ -74,15 +74,15 @@ const speed  = 100;
 const BLUE   = 0;
 const YELLOW = 1;
 
-function c_obj(n, on_yellow = null, on_blue = null) {
+function c_obj(n, m, on_yellow = null, on_blue = null) {
 	this.on_yellow = on_yellow;
 	this.on_blue   = on_blue;
 	this.borders   = [];
 	this.blues     = [];
 	this.yellows   = [];
-	for (let i = 0; i < 13; ++i) {
-		this.borders.push(img(n + "_b_" + i));
-		this.blues  .push(img(n + "_"   + i));
+	for (let i = 0; i < m; ++i) {
+		this.borders.push(img(n + "_"  + i + "_b"));
+		this.blues  .push(img(n + "_"  + i));
 		this.yellows.push(this.blues[i].clone_yellow());
 	}	
 	this.state   = BLUE;
@@ -148,17 +148,50 @@ c_obj.prototype.click = function() {
 	} else return false;
 };
 
-const one_on_yellow = _ => group.add(seqs);
-const one_on_blue   = _ => group.remove(seqs);
+const one_on_yellow = _ => { 
+	group.add(seqs);
+	if (window.stop_audio !== stop_audio) {
+		start_audio();
+		audio.on = true;
+	}
+};
 
-const objs = [ new c_obj("one", one_on_yellow, one_on_blue) ];
+const one_on_blue   = _ => { 
+	group.remove_all(); 
+	if (window.stop_audio === stop_audio) {
+		stop_audio();
+		audio.on = false;
+	} 
+};
+
+const two_on_yellow   = _ => { };
+const two_on_blue     = _ => { };
+const three_on_yellow = _ => { };
+const three_on_blue   = _ => { };
+
+const one   = new c_obj("one"  , 6, one_on_yellow  , one_on_blue  );
+const two   = new c_obj("two"  , 4, two_on_yellow  , two_on_blue  );
+const three = new c_obj("three", 7, three_on_yellow, three_on_blue);
 
 const draw_objs = _ => {
-	draw(objs);
+	draw(one);
+	if (one.state === YELLOW) {
+		draw(two);
+	}
+	if (two.state === YELLOW) {
+		draw(three);
+	}
 };
 
 const click_objs = _ => {
-	return click(objs);
+	if (click(one)) return true;
+	if (one.state === YELLOW) {
+		if (click(two)) return true;
+	}
+	if (two.state === YELLOW) {
+		if (click(three)) return true;
+	}
+	return false;
 };
 
 let start_external_audio = null;

@@ -20,7 +20,7 @@ const click_page = _ => {
     if (click(blob)) return run_page("blob");
     if (click(ufo)) return run_page("ufo");
     if (click(tones)) return run_page("bubble");
-    if (click(circle)) return run_page("circle");
+    if (click(circle)) return run_page("bloby");
     if (click(block)) return run_page("block");
     if (click(volume)) run_volume();
     click(audio);
