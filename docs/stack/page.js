@@ -11,40 +11,37 @@ const dur   = 1000;
 const group = new c_start_group();
 
 const s1 = new c_seq(dur * 1, [ 
-	bf * p(2, 23, 8), 
 	bf * p(2, 23, 0), 
-	bf * p(2, 23, 3), 
-	bf * p(2, 23, 11), 
+	bf * p(2, 23, 5), 
+	bf * p(2, 23, 12), 
+	bf * p(2, 23, 8), 
+	// bf * p(2, 23, 20), 
+	// bf * p(2, 23, 16), 
+], bin, 1);
+
+const s2 = new c_seq(dur * 16, [ 
+	bf * p(2, 15, 27), 
+	bf * p(2, 15, 33), 	
+], bin, .6);
+
+const s3 = new c_seq(dur * 8, [ 
+	bf * p(2, 19, 29), 
+	bf * p(2, 19, 31), 
+//	bf * p(2, 19, 27), 
+], bin, 1);
+
+const s4 = new c_seq(dur * 4, [  // need to keep working on this one
+//	bf * p(2, 23, 2), 
+//	bf * p(2, 23, 8), 
+	bf * p(2, 23, 10), 
+	bf * p(2, 23, 15), 
 	// bf * p(2, 23, 20), 
 	// bf * p(2, 23, 16), 
 ], bin, .7);
 
-const s2 = new c_seq(dur * 4, [ 
-	bf * p(2, 15, 27), 
-	bf * p(2, 15, 13), 	
-], bin, 1);
-
-const s3 = new c_seq(dur * 8, [ 
-	bf * p(2, 19, 29), 
-	bf * p(2, 19, 34), 
-	bf * p(2, 19, 31), 
-], bin, 1);
-
-const s4 = new c_seq(dur * 24, [ 
-	bf * p(2, 23, 8), 
-	bf * p(2, 23, 0), 
-	bf * p(2, 23, 3), 
-	bf * p(2, 23, 11), 
-	// bf * p(2, 23, 20), 
-	// bf * p(2, 23, 16), 
-], bin, .5);
-
-const g1 = [ s1 ];
-const g2 = [ s2 ];
-const g3 = [ s3, s4 ];
-
-
-//const seqs = [ ];
+const g1 = [ s1, s2 ];
+const g2 = [ s1, s2, s3 ];
+const g3 = [ s1, s2, s3, s4 ];
 
 const start_audio = _ => {
 	window.start_audio = null;
@@ -170,9 +167,6 @@ const click_objs = _ => {
 	}
 	return false;
 };
-
-
-
 
 let start_external_audio = null;
 
