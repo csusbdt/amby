@@ -32,10 +32,6 @@ const s4 = new c_seq(dur * 4, [
 	bf * p(2, 23, 15)
 ], bin, .7);
 
-const g1 = [ s1, s2 ];
-const g2 = [ s1, s2, s3 ];
-const g3 = [ s1, s2, s3, s4 ];
-
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
@@ -76,8 +72,8 @@ const BLUE      = 0;
 const YELLOW    = 1;
 
 let one     = BLUE;
-let two     = null;
-let three   = null;
+let two     = BLUE;
+let three   = BLUE;
 
 const draw_objs = _ => {
 	if (one === BLUE) {
@@ -104,59 +100,33 @@ const draw_objs = _ => {
 };
 
 const click_objs = _ => {
-	if (one === BLUE) {
-		if (click(one_blue)) {
+	if (click(one_blue)) {
+		if (one === BLUE) {
 			one = YELLOW;
-			two = BLUE;
-			group.set(g1);
-			return true;
-		}
-	} else if (one === YELLOW && two === BLUE) {
-		if (click(one_yellow)) {
+			group.add([ s1, s2 ]);
+		} else {
 			one = BLUE;
-			two = null;
-			group.remove_all();
-			return true;
-		} else if (click(two_blue)) {
+			group.remove([ s1, s2 ]);
+		}
+		return true;
+	} else if (click(two_blue)) {
+		if (two === BLUE) {
 			two = YELLOW;
-			three = BLUE;
-			group.set(g2);
-			return true;
-		}			
-	} else if (two === YELLOW && three === BLUE) {
-		if (click(one_yellow)) {
-			one = BLUE;
-			two = null;
-			three = null;
-			group.remove_all();
-			return true;
-		} else if (click(two_yellow)) {
+			group.add([ s3 ]);
+		} else {
 			two = BLUE;
-			three = null;
-			group.set(g1);
-			return true;
-		} else if (click(three_blue)) {
+			group.remove([ s3 ]);
+		}
+		return true;
+	} else if (click(three_blue)) {
+		if (three === BLUE) {
 			three = YELLOW;
-			group.set(g3);
-			return true;
-		}
-	} else {
-		if (click(one_yellow)) {
-			one = BLUE;
-			two = null;
-			three = null;
-			group.remove_all();
-			return true;
-		} else if (click(two_yellow)) {
-			two = BLUE;
-			three = null;
-			group.set(g1);
-			return true;
-		} else if (click(three_blue)) {
+			group.add([ s4 ]);
+		} else {
 			three = BLUE;
-			group.set(g2);
-			return true;
+			group.remove([ s4 ]);
 		}
+		return true;
 	}
 	return false;
 };
