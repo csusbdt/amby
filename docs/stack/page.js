@@ -14,29 +14,22 @@ const s1 = new c_seq(dur * 1, [
 	bf * p(2, 23, 0), 
 	bf * p(2, 23, 5), 
 	bf * p(2, 23, 12), 
-	bf * p(2, 23, 8), 
-	// bf * p(2, 23, 20), 
-	// bf * p(2, 23, 16), 
+	bf * p(2, 23, 8)
 ], bin, 1);
 
 const s2 = new c_seq(dur * 16, [ 
 	bf * p(2, 15, 27), 
-	bf * p(2, 15, 33), 	
+	bf * p(2, 15, 33)
 ], bin, .6);
 
 const s3 = new c_seq(dur * 8, [ 
 	bf * p(2, 19, 29), 
-	bf * p(2, 19, 31), 
-//	bf * p(2, 19, 27), 
+	bf * p(2, 19, 31)
 ], bin, 1);
 
-const s4 = new c_seq(dur * 4, [  // need to keep working on this one
-//	bf * p(2, 23, 2), 
-//	bf * p(2, 23, 8), 
+const s4 = new c_seq(dur * 4, [ 
 	bf * p(2, 23, 10), 
-	bf * p(2, 23, 15), 
-	// bf * p(2, 23, 20), 
-	// bf * p(2, 23, 16), 
+	bf * p(2, 23, 15)
 ], bin, .7);
 
 const g1 = [ s1, s2 ];
