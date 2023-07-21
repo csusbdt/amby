@@ -70,9 +70,109 @@ const audio_yellow  = audio_blue.clone_yellow();
 
 const audio = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
 
-const speed  = 100;
-const BLUE   = 0;
-const YELLOW = 1;
+const one_borders = [];
+const one_blues   = [];
+const one_yellows = [];
+
+const two_borders = [];
+const two_blues   = [];
+const two_yellows = [];
+
+const three_borders = [];
+const three_blues   = [];
+const three_yellows = [];
+
+for (let i = 0; i < 6; ++i) {
+	one_borders.push(img("one_"  + i + "_b"));
+	one_blues  .push(img("one_"  + i));
+	one_yellows.push(one_blues[i].clone_yellow());
+}
+
+for (let i = 0; i < 4; ++i) {
+	two_borders.push(img("two_"  + i + "_b"));
+	two_blues  .push(img("two_"  + i));
+	two_yellows.push(two_blues[i].clone_yellow());
+}
+
+for (let i = 0; i < 7; ++i) {
+	three_borders.push(img("three_"  + i + "_b"));
+	three_blues  .push(img("three_"  + i));
+	three_yellows.push(three_blues[i].clone_yellow());
+}
+
+const speed     = 100;
+
+// const HIDDEN    = 0;
+const BLUE      = 0;
+const YELLOW    = 1;
+// const TO_HIDDEN = 3;
+// const TO_BLUE   = 4;
+// const TO_YELLOW = 5;
+
+// let one_state   = BLUE;
+// let two_state   = HIDDEN;
+// let three_state = HIDDEN;
+
+let one     = BLUE;
+let two     = null;
+let three   = null;
+
+let one_i   = 0;
+let two_i   = null;
+let three_i = null;
+
+const draw_objs = _ => {
+	if (one === BLUE) draw(one_blues[one_i]); else draw(one_yellows[one_i]);
+	draw(one_borders[one_i]);
+
+	if (two !== null) {
+		if (two === BLUE) draw(two_blues[two_i]); else draw(two_yellows[two_i]);
+		draw(two_borders[two_i]);
+	}
+	
+	if (three !== null) {
+		if (three === BLUE) draw(three_blues[three_i]); else draw(three_yellows[three_i]);
+		draw(three_borders[three_i]);
+	}
+};
+
+const one_up = _ => {
+	if (++one_i === one_blues.length - 1) {
+		one = YELLOW;
+		two = BLUE;
+		two_i = 0;
+		on_click = click_page;
+	} else setTimeout(one_up, speed);
+	on_resize();
+};
+
+const one_down = _ => {
+	if (--one_i === 0) {
+		two = BLUE;
+		two_i = 0;
+		on_click = click_page;
+	} else setTimeout(one_up, speed);
+	on_resize();
+};
+
+
+const click_objs = _ => {
+	if (one === BLUE && click(one_blues[0])) {
+		on_click = null;
+		one_up();
+		return true;
+	}
+	return false;
+};
+
+
+
+
+
+
+
+
+/*
 
 function c_obj(n, m, on_yellow = null, on_blue = null) {
 	this.on_yellow = on_yellow;
@@ -193,6 +293,8 @@ const click_objs = _ => {
 	}
 	return false;
 };
+
+*/
 
 let start_external_audio = null;
 

@@ -10,6 +10,7 @@ const ufo          = new c_img("./home/images/ufo.png");
 const tones        = new c_img("./home/images/tones.png");
 const circle       = new c_img("./home/images/circle.png");
 const block        = new c_img("./home/images/block.png");
+const stack        = new c_img("./home/images/stack.png");
 
 const audio_blue   = new c_img("./home/images/audio.png");
 const audio_yellow = audio_blue.clone_yellow();
@@ -22,6 +23,7 @@ const click_page = _ => {
     if (click(tones)) return run_page("bubble");
     if (click(circle)) return run_page("bloby");
     if (click(block)) return run_page("block");
+    if (click(stack)) return run_page("stack");
     if (click(volume)) run_volume();
     click(audio);
     on_resize();
@@ -37,6 +39,7 @@ const draw_page = _ => {
     draw(tones);
     draw(circle);
     draw(block);
+    draw(stack);
     draw(borders);
 };
 
