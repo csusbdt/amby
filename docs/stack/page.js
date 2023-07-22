@@ -8,7 +8,7 @@ import run_volume    from "../volume/page.js";
 const bf    = 90;
 const bin   = bf * Math.pow(PHI, -7);
 const dur   = 1000;
-const group = new c_start_group();
+const start_group = new c_start_group();
 
 const s1 = new c_seq(dur * 1, [ 
 	bf * p(2, 23, 0), 
@@ -35,21 +35,21 @@ const s4 = new c_seq(dur * 4, [
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
-	start(group);
+	start(start_group);
 };
 
 const stop_audio = _ => {
 	window.start_audio = start_audio;
 	window.stop_audio  = null;
-	stop(group);
+	stop(start_group);
 };
 
 let img = n => new c_img("./bloby/images/" + n + ".png");
 
-const borders       = img("borders");
-const back          = img("back"   );
-const volume        = img("volume" );
-const audio_blue    = img("audio"  );
+const borders       = img("borders"    );
+const back          = img("back"       );
+const volume        = img("volume"     );
+const audio_blue    = img("audio"      );
 const audio_yellow  = audio_blue.clone_yellow();
 
 const audio = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
@@ -103,28 +103,28 @@ const click_objs = _ => {
 	if (click(one_blue)) {
 		if (one === BLUE) {
 			one = YELLOW;
-			group.add([ s1, s2 ]);
+			start_group.add([ s1, s2 ]);
 		} else {
 			one = BLUE;
-			group.remove([ s1, s2 ]);
+			start_group.remove([ s1, s2 ]);
 		}
 		return true;
 	} else if (click(two_blue)) {
 		if (two === BLUE) {
 			two = YELLOW;
-			group.add([ s3 ]);
+			start_group.add([ s3 ]);
 		} else {
 			two = BLUE;
-			group.remove([ s3 ]);
+			start_group.remove([ s3 ]);
 		}
 		return true;
 	} else if (click(three_blue)) {
 		if (three === BLUE) {
 			three = YELLOW;
-			group.add([ s4 ]);
+				start_group.add([ s4 ]);
 		} else {
 			three = BLUE;
-			group.remove([ s4 ]);
+			start_group.remove([ s4 ]);
 		}
 		return true;
 	}

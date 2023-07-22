@@ -14,6 +14,11 @@ c_beat_group.prototype.add = function(a) {
 	});
 };
 
+c_beat_group.prototype.remove_all = function() {
+	Array.from(this.members).forEach(m => this.remove(m));
+	this.joiners.length = 0;
+};
+
 c_beat_group.prototype.remove = function(a) {
 	if (!Array.isArray(a)) a = [ a ];
 	a.forEach(m => {
