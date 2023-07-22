@@ -38,8 +38,8 @@ const s5 = new c_seq(dur * 16, [
 	bf * p(2, 23, 28 + 23),
 ], bin, 1);
 
-const g1 = [ s1 ];
-const g2 = [ s1, s2 ];
+const g1 = [ s1, s2 ];
+const g2 = [ s1, s2, s3 ];
 const g3 = [ s1, s2, s3, s4, s5 ];
 
 const start_audio = _ => {

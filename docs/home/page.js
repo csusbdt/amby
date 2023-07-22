@@ -8,10 +8,9 @@ const rings        = new c_img("./home/images/rings.png");
 const blob         = new c_img("./home/images/blob.png");
 const ufo          = new c_img("./home/images/ufo.png");
 const tones        = new c_img("./home/images/tones.png");
-const circle       = new c_img("./home/images/circle.png");
 const block        = new c_img("./home/images/block.png");
 const stack        = new c_img("./home/images/stack.png");
-const bathysphere  = new c_img("./home/images/man.png");
+const bathysphere  = new c_img("./home/images/circle.png");
 
 const audio_blue   = new c_img("./home/images/audio.png");
 const audio_yellow = audio_blue.clone_yellow();
@@ -22,7 +21,6 @@ const click_page = _ => {
     if (click(blob)) return run_page("blob");
     if (click(ufo)) return run_page("ufo");
     if (click(tones)) return run_page("bubble");
-    if (click(circle)) return run_page("bloby");
     if (click(block)) return run_page("block");
     if (click(stack)) return run_page("stack");
     if (click(bathysphere)) return run_page("bathysphere");
@@ -39,7 +37,6 @@ const draw_page = _ => {
     draw(blob);
     draw(ufo);
     draw(tones);
-    draw(circle);
     draw(block);
     draw(stack);
     draw(bathysphere);
