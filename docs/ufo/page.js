@@ -164,13 +164,22 @@ const update_groups = _ => {
 		if (man.state === INSIDE_HOUSE) {
 			group.set([ day_center, day_a, day_b, day_c ]);
 		} else if (man.state === OUTSIDE_HOUSE) {
-			group.set([ day_center, day_c ]);
+			//group.set([ day_center, day_c ]);
+			group.set([]);
 		} else if (man.state === IN_VALLEY) {
-			group.set([ day_center, day_a ]);
+//			group.set([ day_center, day_a ]);
+			group.set([]);
 		} else if (man.state === INSIDE_SHIP) {
 			group.set([ ring_1, ring_2, ring_3, ring_4 ]);
 		}
 	} else {
+		if (man.state === INSIDE_HOUSE) {
+			group.set([ day_center, day_a, day_b, day_c ]);
+		} else if (man.state === INSIDE_SHIP) {
+			group.set([ ring_1, ring_2, ring_3, ring_4 ]);
+		} else {
+			group.set([]);
+		}
 		// if (beam.state === TAKING) {
 		// 	group.set([ day_center, day_e ]);
 		// } else if (beam.state === PUTTING) {
@@ -182,7 +191,8 @@ const update_groups = _ => {
 		// } else if (man.state === IN_VALLEY) {
 		// 	group.set([ day_center, day_a, day_accent ]);
 		// } else if (man.state === INSIDE_SHIP) {
-			group.set([ ring_1, ring_2, ring_3, ring_4, ufo ]);
+//			group.set([ ring_1, ring_2, ring_3, ring_4, ufo ]);
+			// group.set([ ring_1, ring_2, ring_3, ring_4 ]);
 		//}
 	}
 };
@@ -262,49 +272,49 @@ const ship = {
 			if (man.state === INSIDE_SHIP) draw(this.yellow, -400, 200);
 			else draw(this.blue, -400, 200);
 		}
+	},
+	click: function() {
+		if (sun.state === DAY) return false;
+		if (this.state === OVER_VALLEY) {
+			if (click(this.blue)) {
+				if (beam.state === OFF) {
+					if (man.state === IN_VALLEY) {
+						beam.state = TAKING;
+					} else if (man.state === INSIDE_SHIP) {
+						beam.state = PUTTING;
+					} else {
+						this.state = OVER_HOUSE;
+					}
+				} else if (beam.state === TAKING) {
+					beam.state = OFF;
+					man.state  = INSIDE_SHIP;
+				} else {
+					beam.state = OFF;
+					man.state  = IN_VALLEY;
+				}
+				return true;
+			} else return false;
+		} else {
+			if (click(this.blue, -400, 200)) {
+				if (beam.state === OFF) {
+					if (man.state === OUTSIDE_HOUSE) {
+						beam.state = TAKING;
+					} else if (man.state === INSIDE_SHIP) {
+						beam.state = PUTTING;
+					} else {
+						this.state = OVER_VALLEY;
+					}
+				} else if (beam.state === TAKING) {
+					beam.state = OFF;
+					man.state  = INSIDE_SHIP;
+				} else {
+					beam.state = OFF;
+					man.state  = OUTSIDE_HOUSE;
+				}
+				return true;
+			} else return false;
+		}
 	}
-	// click: function() {
-	// 	if (sun.state === DAY) return false;
-	// 	if (this.state === OVER_VALLEY) {
-	// 		if (click(this.blue)) {
-	// 			if (beam.state === OFF) {
-	// 				if (man.state === IN_VALLEY) {
-	// 					beam.state = TAKING;
-	// 				} else if (man.state === INSIDE_SHIP) {
-	// 					beam.state = PUTTING;
-	// 				} else {
-	// 					this.state = OVER_HOUSE;
-	// 				}
-	// 			} else if (beam.state === TAKING) {
-	// 				beam.state = OFF;
-	// 				man.state  = INSIDE_SHIP;
-	// 			} else {
-	// 				beam.state = OFF;
-	// 				man.state  = IN_VALLEY;
-	// 			}
-	// 			return true;
-	// 		} else return false;
-	// 	} else {
-	// 		if (click(this.blue, -400, 200)) {
-	// 			if (beam.state === OFF) {
-	// 				if (man.state === OUTSIDE_HOUSE) {
-	// 					beam.state = TAKING;
-	// 				} else if (man.state === INSIDE_SHIP) {
-	// 					beam.state = PUTTING;
-	// 				} else {
-	// 					this.state = OVER_VALLEY;
-	// 				}
-	// 			} else if (beam.state === TAKING) {
-	// 				beam.state = OFF;
-	// 				man.state  = INSIDE_SHIP;
-	// 			} else {
-	// 				beam.state = OFF;
-	// 				man.state  = OUTSIDE_HOUSE;
-	// 			}
-	// 			return true;
-	// 		} else return false;
-	// 	}
-	// }
 };
 
 const house = {
@@ -322,7 +332,7 @@ const house = {
 		draw([ this.door_red, this.border, this.window_border, this.door_border ]);
 	},
 	click: function() {
-		if (sun.state === NIGHT) return false;
+		//if (sun.state === NIGHT) return false;
 		if (click(this.blue)) {
 			if (man.state === INSIDE_HOUSE) {
 				man.state = OUTSIDE_HOUSE;
@@ -363,7 +373,7 @@ const man = {
 		}
 	},
 	click: function() {
-		if (sun.state === NIGHT) return false;
+		//if (sun.state === NIGHT) return false;
 		if (this.state === IN_VALLEY) { 
 			if (click(this.yellow)) {
 				this.state = OUTSIDE_HOUSE;
@@ -379,7 +389,7 @@ const man = {
 	}
 };
 
-let click_set = [ sun, man, house ];
+let click_set = [ sun, man, house, ship ];
 
 let start_external_audio = null;
 
