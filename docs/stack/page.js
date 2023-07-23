@@ -28,9 +28,10 @@ const s3 = new c_seq(dur * 8, [
 ], bin, 1);
 
 const s4 = new c_seq(dur * 4, [ 
-	bf * p(2, 23, 10), 
-	bf * p(2, 23, 15)
-], bin, .7);
+	bf * p(2, 7, -2 + 11), 
+	bf * p(2, 7,  6 + 11), 
+	bf * p(2, 7,  2 + 11), 
+], bin, .4);
 
 const start_audio = _ => {
 	window.start_audio = null;
