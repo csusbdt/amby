@@ -11,10 +11,10 @@ const dur   = 1000;
 const start_group = new c_start_group();
 
 const s1 = new c_seq(dur * 1, [ 
-	bf * p(2, 23, 0), 
 	bf * p(2, 23, 5), 
 	bf * p(2, 23, 12), 
-	bf * p(2, 23, 8)
+	bf * p(2, 23, 8),
+	bf * p(2, 23, 0), 
 ], bin, 1);
 
 const s2 = new c_seq(dur * 16, [ 
