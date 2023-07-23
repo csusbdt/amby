@@ -31,7 +31,7 @@ const s4 = new c_seq(dur * 4, [
 	bf * p(2, 7, -2 + 11), 
 	bf * p(2, 7,  6 + 11), 
 	bf * p(2, 7,  2 + 11), 
-], bin, .4);
+], bin, .6);
 
 const start_audio = _ => {
 	window.start_audio = null;
