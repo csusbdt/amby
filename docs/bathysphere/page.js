@@ -1,5 +1,5 @@
 import c_img         from "../common/img.js";
-import c_toggle      from "../common/toggle.js";
+//import c_toggle      from "../common/toggle.js";
 import c_tone        from "../common/tone.js";
 import c_start_group from "../common/start_group.js";
 import c_seq         from "../common/seq.js";
@@ -54,17 +54,12 @@ const stop_audio = _ => {
 	stop(start_group);
 };
 
-let img = n => new c_img("./bloby/images/" + n + ".png");
+let img = n => new c_img("./bathysphere/images/" + n + ".png");
 
-const borders0      = img("borders"    );
-const back          = img("back"       );
-const volume        = img("volume"     );
-const audio_blue    = img("audio"      );
-const audio_yellow  = audio_blue.clone_yellow();
-
-const audio = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
-
-img = n => new c_img("./bathysphere/images/" + n + ".png");
+const back_border   = img("back_border"  );
+const back          = img("back"         );
+const volume_border = img("volume_border");
+const volume        = img("volume"       );
 
 const BLUE      = 0;
 const YELLOW    = 1;
@@ -98,6 +93,7 @@ const click_objs = _ => {
 	if (state === 0 && click(blues[0])) {
 		state = 1;
 		start_group.set(g1);
+		start_audio();
 		return true;
 	} else if (state === 1 && click(blues[1])) {
 		state = 2;
@@ -106,6 +102,7 @@ const click_objs = _ => {
 	} else if (state === 1 && click(blues[0])) {
 		state = 0;
 		start_group.remove_all();
+		stop_audio();
 		return true;
 	} else if (state === 2 && click(blues[2])) {
 		state = 3;
@@ -129,7 +126,7 @@ const click_page = _ => {
     if (click(back)) return run_page("home"); 
 	else start_external_audio = null;
     if (click(volume)) run_volume();
-	if (click(audio) || click_objs()) on_resize();
+	if (click_objs()) on_resize();
 };
 
 const draw_page = _ => {
@@ -137,8 +134,8 @@ const draw_page = _ => {
 	draw_objs();
     draw(back);
     draw(volume);
-	draw(audio);
-    draw(borders0);
+    draw(back_border);
+    draw(volume_border);
 };
 
 const run = _ => {
@@ -146,7 +143,6 @@ const run = _ => {
 		window.stop_audio();
 		start_external_audio = window.start_audio;
 	}
-	audio.on = window.stop_audio !== null;
     on_resize = draw_page;
     on_click  = click_page;
     on_resize();

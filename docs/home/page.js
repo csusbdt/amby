@@ -16,19 +16,22 @@ const concert      = new c_img("./home/images/concert.png");
 
 const audio_blue   = new c_img("./home/images/audio.png");
 const audio_yellow = audio_blue.clone_yellow();
-const audio        = new c_toggle(audio_blue, audio_yellow, null, _ => window.start_audio(), _ => window.stop_audio());
+const audio        = new c_toggle(
+    audio_blue, audio_yellow, null, 
+    _ => window.start_audio(), _ => window.stop_audio()
+);
 
 const click_page = _ => {
-    if (click(rings)) return run_page("rings");
-    if (click(blob)) return run_page("blob");
-    if (click(ufo)) return run_page("ufo");
-    if (click(tones)) return run_page("bubble");
-    if (click(block)) return run_page("block");
-    if (click(stack)) return run_page("stack");
+    if (click(rings      )) return run_page("rings"      );
+    if (click(blob       )) return run_page("blob"       );
+    if (click(ufo        )) return run_page("ufo"        );
+    if (click(tones      )) return run_page("bubble"     );
+    if (click(block      )) return run_page("block"      );
+    if (click(stack      )) return run_page("stack"      );
     if (click(bathysphere)) return run_page("bathysphere");
-    if (click(train)) return run_page("train");
-    if (click(concert)) return run_page("concert");
-    if (click(volume)) run_volume();
+    if (click(train      )) return run_page("train"      );
+    if (click(concert    )) return run_page("concert"    );
+    if (click(volume     )) return run_volume();
     click(audio);
     on_resize();
 };
