@@ -1,5 +1,4 @@
 import c_img         from "../common/img.js";
-//import c_toggle      from "../common/toggle.js";
 import c_tone        from "../common/tone.js";
 import c_start_group from "../common/start_group.js";
 import c_seq         from "../common/seq.js";
@@ -143,6 +142,7 @@ const run = _ => {
 		window.stop_audio();
 		start_external_audio = window.start_audio;
 	}
+	if (state !== 0) start_audio();
     on_resize = draw_page;
     on_click  = click_page;
     on_resize();

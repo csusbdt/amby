@@ -1,5 +1,4 @@
 import c_img         from "../common/img.js";
-import c_toggle      from "../common/toggle.js";
 import c_tone        from "../common/tone.js";
 import c_start_group from "../common/start_group.js";
 import c_seq         from "../common/seq.js";
@@ -10,38 +9,42 @@ const bin         = bf * Math.pow(PHI, -7);
 const dur         = 1000;
 const start_group = new c_start_group();
 
-const s1 = new c_seq(dur * 1, [ 
-	bf * p(2, 23, 0), 
-	bf * p(2, 23, 5), 
+const s1 = new c_seq(dur * 1, [
+	bf * p(2, 16, 5),
+	bf * p(2, 16, 0),
 ], bin, 1);
 
-const s2 = new c_seq(dur * 2, [ 
-	bf * p(2, 15, 27), 
-	bf * p(2, 15, 33)
-], bin, .4);
-
-const s3 = new c_seq(dur * 4, [ 
-	bf * p(2, 19, 29), 
-	bf * p(2, 19, 31)
+const s2 = new c_seq(dur * 4, [
+	bf * p(2, 16, 10),
+	bf * p(2, 16, 13),	
 ], bin, 1);
 
-const s4 = new c_seq(dur * 8, [ 
-	bf * p(2, 23, 10), 
-	bf * p(2, 23, 15)
+const s3 = new c_seq(dur * 8, [ 
+	bf * p(2, 16, 18),
+	bf * p(2, 16, 24),	
 ], bin, 1);
 
-const s5 = new c_seq(dur * 16, [ 
+const s4 = new c_seq(dur * 16, [ 
+	bf * p(2, 16, 27),
+	bf * p(2, 16, 35),	
+], bin, 1);
+
+const s5 = new c_seq(dur * 32, [ 
 	0, 0,
-	bf * p(2, 23, 23), 
-	bf * p(2, 23, 28),
-	bf * p(2, 23, 23 + 23), 
-	bf * p(2, 23, 28 + 23),
-], bin, 1);
+	bf * p(2, 16, 37),
+	bf * p(2, 16, 45),
+], bin, .6);
+
+const s6 = new c_seq(dur * 64, [ 
+	0, 0,
+	bf * p(2, 16, 49),
+	bf * p(2, 16, 54),
+], bin, .4);
 
 const g0 = [ s1, s2 ];
 const g1 = [ s1, s2, s3 ];
 const g2 = [ s1, s2, s3, s4 ];
-const g3 = [ s1, s2, s3, s4, s5 ];
+const g3 = [ s1, s2, s3, s4, s5, s6 ];
 
 const start_audio = _ => {
 	window.start_audio = null;
@@ -158,7 +161,6 @@ const run = _ => {
 		window.stop_audio();
 		start_external_audio = window.start_audio;
 	}
-//	audio.on = window.stop_audio !== null;
     on_resize = draw_page;
     on_click  = click_page;
     on_resize();
