@@ -49,6 +49,8 @@ const start_audio = _ => {
 const stop_audio = _ => {
 	window.start_audio = start_audio;
 	window.stop_audio  = null;
+	clearTimeout(id);
+	id = null;
 	stop(start_group);
 };
 
@@ -122,7 +124,8 @@ const click_page = _ => {
     if (click(back_blue)) return run_page("home"); 
 	else start_external_audio = null;
     if (click(volume_blue)) return run_volume();
-	if (state === null) {
+	if (window.stop_audio === null) {
+//	if (state === null) {
 //		if (click(start_blue)) {
 			state = 0;
 		play_0();
@@ -164,7 +167,8 @@ const click_page = _ => {
 
 const draw_page = _ => {
 	draw(bg_green);
-	if (state === null) {
+//	if (state === null) {
+	if (window.stop_audio === null) {
 		draw(back_blue);
 		draw(volume_blue);
 		//draw(start_blue);
