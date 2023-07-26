@@ -12,39 +12,33 @@ const start_group = new c_start_group();
 const s1 = new c_seq(dur * 1, [
 	bf * p(2, 16, 5),
 	bf * p(2, 16, 0),
-], bin, 1);
+], bin, .8);
 
-const s2 = new c_seq(dur * 4, [
+const s2 = new c_seq(dur * 2, [
 	bf * p(2, 16, 10),
 	bf * p(2, 16, 13),	
-], bin, 1);
+], bin, .9);
 
-const s3 = new c_seq(dur * 8, [ 
+const s3 = new c_seq(dur * 4, [ 
 	bf * p(2, 16, 18),
 	bf * p(2, 16, 24),	
 ], bin, 1);
 
-const s4 = new c_seq(dur * 16, [ 
-	bf * p(2, 16, 27),
-	bf * p(2, 16, 35),	
-], bin, 1);
-
-const s5 = new c_seq(dur * 32, [ 
-	0, 0,
-	bf * p(2, 16, 37),
-	bf * p(2, 16, 45),
-], bin, .6);
-
-const s6 = new c_seq(dur * 64, [ 
-	0, 0,
-	bf * p(2, 16, 49),
-	bf * p(2, 16, 54),
+const s4 = new c_seq(dur * 8, [ 
+	bf * p(2, 16, 30),
+	bf * p(2, 16, 33),
 ], bin, .4);
 
-const g0 = [ s1, s2 ];
-const g1 = [ s1, s2, s3 ];
-const g2 = [ s1, s2, s3, s4 ];
-const g3 = [ s1, s2, s3, s4, s5, s6 ];
+const s5 = new c_seq(dur * 16, [ 
+	bf * p(2, 16, 27),
+	bf * p(2, 16, 35),	
+], bin, .7);
+
+const g0  = [ s1 ];
+const g1  = [ s1, s2 ];
+const g2  = [ s1, s2, s3 ];
+const g3  = [ s1, s2, s3, s4 ];
+const g4  = [ s1, s2, s3, s4, s5 ];
 
 const start_audio = _ => {
 	window.start_audio = null;
@@ -85,6 +79,43 @@ const yellow_2      = blue_2.clone_yellow();
 
 let state = null;
 
+let id = null;
+
+const play_0 = _ => {
+	start_group.set(g0);	
+	id = setTimeout(play_1, 4 * 1000);
+};
+
+const play_1 = _ => {
+	start_group.set(g1);
+	setTimeout(play_2, 4 * 1000);
+};
+
+const play_2 = _ => {
+	start_group.set(g2);
+	setTimeout(play_3, 8 * 1000);
+};
+
+const play_3 = _ => {
+	start_group.set(g3);
+	setTimeout(play_4, 16 * 1000);
+};
+
+const play_4 = _ => {
+	start_group.set(g4);
+	setTimeout(play_5, 32 * 1000);
+};
+
+const play_5 = _ => {
+	start_group.set(g3);
+	setTimeout(play_6, 16 * 1000);
+};
+
+const play_6 = _ => {
+	start_group.set(g2);
+	setTimeout(play_1, 8 * 1000);
+};
+
 let start_external_audio = null;
 
 const click_page = _ => {
@@ -92,20 +123,21 @@ const click_page = _ => {
 	else start_external_audio = null;
     if (click(volume_blue)) return run_volume();
 	if (state === null) {
-		if (click(start_blue)) {
+//		if (click(start_blue)) {
 			state = 0;
-			start_group.set(g0);
+		play_0();
+			// start_group.set(g3);
 			start_audio();
-		}
+//		}
 	} else if (state === 0) {
-		if (click(blue_0)) {
-			state = 1;
-			start_group.set(g1);
-		} else {
+//		if (click(blue_0)) {
+		// 	state = 1;
+		// 	start_group.set(g1);
+		// } else {
 			state = null;
 			start_group.remove_all();
 			stop_audio();
-		}
+//		}
 	} else if (state === 1) {
 		if (click(blue_1)) {
 			state = 2;
@@ -135,23 +167,23 @@ const draw_page = _ => {
 	if (state === null) {
 		draw(back_blue);
 		draw(volume_blue);
-		draw(start_blue);
+		//draw(start_blue);
 		draw(back_border);
 		draw(volume_border);
-		draw(start_border);
+		//draw(start_border);
 	} else if (state === 0) {
-		draw(photo);
-		draw(blue_0);
-		draw(border_0);
-	} else if (state === 1) {
-		draw(photo);
-		draw(blue_1);
-		draw(border_1);
-	} else if (state === 2) {
-		draw(photo);
-		draw(blue_2);
-		draw(border_2);
-	} else if (state === 3) {
+	// 	draw(photo);
+	// 	draw(blue_0);
+	// 	draw(border_0);
+	// } else if (state === 1) {
+	// 	draw(photo);
+	// 	draw(blue_1);
+	// 	draw(border_1);
+	// } else if (state === 2) {
+	// 	draw(photo);
+	// 	draw(blue_2);
+	// 	draw(border_2);
+	// } else if (state === 3) {
 		draw(photo);
 	}
 };
