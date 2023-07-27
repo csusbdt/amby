@@ -22,15 +22,15 @@ const audio        = new c_toggle(
 );
 
 const click_page = _ => {
-    if (click(rings      )) return run_page("rings"      );
-    if (click(blob       )) return run_page("blob"       );
-    if (click(ufo        )) return run_page("ufo"        );
-    if (click(tones      )) return run_page("bubble"     );
-    if (click(block      )) return run_page("block"      );
-    if (click(rpm        )) return run_page("rpm"        );
-    if (click(bathysphere)) return run_page("bathysphere");
-    if (click(train      )) return run_page("train"      );
-    if (click(concert    )) return run_page("concert"    );
+    if (click(rings      )) return goto_page("rings"      );
+    if (click(blob       )) return goto_page("blob"       );
+    if (click(ufo        )) return goto_page("ufo"        );
+    if (click(tones      )) return goto_page("bubble"     );
+    if (click(block      )) return goto_page("block"      );
+    if (click(rpm        )) return goto_page("rpm"        );
+    if (click(bathysphere)) return goto_page("bathysphere");
+    if (click(train      )) return goto_page("train"      );
+    if (click(concert    )) return goto_page("concert"    );
     if (click(volume     )) return run_volume();
     click(audio);
     on_resize();
