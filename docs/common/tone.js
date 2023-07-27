@@ -7,7 +7,7 @@ function c_tone(f, b = 0, v = 1) {
 	this.g       = null;
 }
 
-c_tone.prototype.start = function() {
+c_tone.prototype.start = function(t = 0) {
 	if (window.stop_audio === null) return;
 	if (this.g !== null) return;
 	this.g = audio.createGain();
@@ -23,13 +23,13 @@ c_tone.prototype.start = function() {
 	this.o_right.frequency.value = this.f + this.b;
 	this.o_left.start();
 	this.o_right.start();
-	this.g.gain.setTargetAtTime(this.v, audio.currentTime, .05);
+	this.g.gain.setTargetAtTime(this.v, audio.currentTime + t, .05);
 	return this;
 };
 
-c_tone.prototype.stop = function() {
+c_tone.prototype.stop = function(t = 0) {
 	if (this.g === null) return;
-	this.g.gain.setTargetAtTime(0, audio.currentTime, .05);
+	this.g.gain.setTargetAtTime(0, audio.currentTime + t, .05);
 	let g        = this.g;
 	this.g       = null;
 	this.o_left  = null;
@@ -38,37 +38,37 @@ c_tone.prototype.stop = function() {
     return this;
 };
 
-c_tone.prototype.set_f = function(f) {
+c_tone.prototype.set_f = function(f, t = 0) {
 	if (f === this.f) return this;
 	this.f = f;
 	if (this.g !== null) {
-		this.o_left.frequency.setTargetAtTime(this.f, audio.currentTime, .05);
-		this.o_right.frequency.setTargetAtTime(this.f + this.b, audio.currentTime, .05);
+		this.o_left.frequency.setTargetAtTime(this.f, audio.currentTime + t, .05);
+		this.o_right.frequency.setTargetAtTime(this.f + this.b, audio.currentTime + t, .05);
 	}
 	return this;
 };
 
-c_tone.prototype.set_b = function(b) {
+c_tone.prototype.set_b = function(b, t = 0) {
 	if (b === this.b) return this;
 	this.b = b;
 	if (this.g !== null) {
-		this.o_right.frequency.setTargetAtTime(this.f + this.b, audio.currentTime, .05);
+		this.o_right.frequency.setTargetAtTime(this.f + this.b, audio.currentTime + t, .05);
 	}
 	return this;
 };
 
-c_tone.prototype.set_v = function(v) { 
+c_tone.prototype.set_v = function(v, t = 0) { 
 	if (v === this.v) return this;
 	this.v = v;
 	if (this.g !== null) {
-		this.g.gain.setTargetAtTime(v, audio.currentTime, .05);
+		this.g.gain.setTargetAtTime(v, audio.currentTime + t, .05);
 	}
 	return this;
 };
 
-c_tone.prototype.set_fv = function(f, v) {
-	this.set_f(f);
-	this.set_v(v);
+c_tone.prototype.set_fv = function(f, v, t = 0) {
+	this.set_f(f, t);
+	this.set_v(v, t);
 	return this;
 };
 

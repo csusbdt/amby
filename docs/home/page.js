@@ -3,15 +3,15 @@ import c_toggle   from "../common/toggle.js";
 import run_volume from "../volume/page.js";
 
 const borders      = new c_img("./home/images/borders.png");
-const volume       = new c_img("./home/images/volume.png");
-const rings        = new c_img("./home/images/rings.png");
-const blob         = new c_img("./home/images/blob.png");
-const ufo          = new c_img("./home/images/ufo.png");
-const tones        = new c_img("./home/images/tones.png");
-const block        = new c_img("./home/images/block.png");
-const rpm          = new c_img("./home/images/stack.png");
-const bathysphere  = new c_img("./home/images/circle.png");
-const train        = new c_img("./home/images/man.png");
+const volume       = new c_img("./home/images/volume.png" );
+const rings        = new c_img("./home/images/rings.png"  );
+const blob         = new c_img("./home/images/blob.png"   );
+const ufo          = new c_img("./home/images/ufo.png"    );
+const tones        = new c_img("./home/images/tones.png"  );
+const block        = new c_img("./home/images/block.png"  );
+const rpm          = new c_img("./home/images/stack.png"  );
+const bathysphere  = new c_img("./home/images/circle.png" );
+const train        = new c_img("./home/images/man.png"    );
 const concert      = new c_img("./home/images/concert.png");
 
 const audio_blue   = new c_img("./home/images/audio.png");

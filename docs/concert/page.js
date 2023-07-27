@@ -1,49 +1,138 @@
-import c_img         from "../common/img.js";
-import c_tone        from "../common/tone.js";
-import c_start_group from "../common/start_group.js";
-import c_seq         from "../common/seq.js";
-import run_volume    from "../volume/page.js";
+import c_img        from "../common/img.js";
+import c_tone       from "../common/tone.js";
+import run_volume   from "../volume/page.js";
 
-const bf          = 90;
-const bin         = bf * Math.pow(PHI, -7);
-const dur         = 1000;
-const start_group = new c_start_group();
+const back_border   = new c_img("./bathysphere/images/back_border.png");
+const back_blue     = new c_img("./bathysphere/images/back.png");
+const volume_border = new c_img("./bathysphere/images/volume_border.png");
+const volume_blue   = new c_img("./bathysphere/images/volume.png");
+const photo         = new c_img("./concert/images/photo.png");
 
-const s1 = new c_seq(dur * 1, [
-	bf * p(2, 16, 5),
-	bf * p(2, 16, 0),
-], bin, .8);
+const bf            = 90;
+const bin           = bf * Math.pow(PHI, -7);
+const dur           = 1;
 
-const s2 = new c_seq(dur * 2, [
-	bf * p(2, 16, 10),
-	bf * p(2, 16, 13),	
-], bin, .9);
+const a0 = [ bf * p(2, 16,  5), bf * p(2, 16,  0) ]; const v0 = .6;
+const a1 = [ bf * p(2, 16, 10), bf * p(2, 16, 13) ]; const v1 = .8; 
+const a2 = [ bf * p(2, 16, 17), bf * p(2, 16, 24) ]; const v2 =  1;
+const a3 = [ bf * p(2, 16, 27), bf * p(2, 16, 30) ]; const v3 = .5;
+const a4 = [ bf * p(2, 16, 33), bf * p(2, 16, 36) ]; const v4 = .3;
 
-const s3 = new c_seq(dur * 4, [ 
-	bf * p(2, 16, 18),
-	bf * p(2, 16, 24),	
-], bin, 1);
+const t0 = new c_tone(a0[0], bin, v0);
+const t1 = new c_tone(a1[0], bin, v1);
+const t2 = new c_tone(a2[0], bin, v2);
+const t3 = new c_tone(a3[0], bin, v3);
+const t4 = new c_tone(a4[0], bin, v4);
+const tones = [ t0, t1, t2, t3, t4 ];
 
-const s4 = new c_seq(dur * 8, [ 
-	bf * p(2, 16, 30),
-	bf * p(2, 16, 33),
-], bin, .4);
+let id = null;
 
-const s5 = new c_seq(dur * 16, [ 
-	bf * p(2, 16, 27),
-	bf * p(2, 16, 35),	
-], bin, .7);
+const p0 = _ => {
+	t0.start();
+	for (let i = 0; i < 4; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	id = setTimeout(p1, 4 * dur * 1000);
+};
 
-const g0  = [ s1 ];
-const g1  = [ s1, s2 ];
-const g2  = [ s1, s2, s3 ];
-const g3  = [ s1, s2, s3, s4 ];
-const g4  = [ s1, s2, s3, s4, s5 ];
+const p1 = _ => {
+	t2.stop();
+	t1.start();
+	for (let i = 0; i < 4; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	id = setTimeout(p2, 4 * dur * 1000);
+};
+
+const p2 = _ => {
+	t2.start();
+	for (let i = 0; i < 8; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 4; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t2.set_f(a2[i % 2], i * dur * 4);
+	}
+	id = setTimeout(p3, 8 * dur * 1000);
+};
+
+const p3 = _ => {
+	t3.start();
+	for (let i = 0; i < 16; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 8; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	for (let i = 0; i < 4; ++i) {
+		t2.set_f(a2[i % 2], i * dur * 4);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t3.set_f(a3[i % 2], i * dur * 8);
+	}
+	id = setTimeout(p4, 16 * dur * 1000);
+};
+
+const p4 = _ => {
+	t4.start();
+	for (let i = 0; i < 32; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 16; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	for (let i = 0; i < 8; ++i) {
+		t2.set_f(a2[i % 2], i * dur * 4);
+	}
+	for (let i = 0; i < 4; ++i) {
+		t3.set_f(a3[i % 2], i * dur * 8);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t4.set_f(a4[i % 2], i * dur * 16);
+	}
+	id = setTimeout(p5, 32 * dur * 1000);
+};
+
+const p5 = _ => {
+	t4.stop();
+	for (let i = 0; i < 16; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 8; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	for (let i = 0; i < 4; ++i) {
+		t2.set_f(a2[i % 2], i * dur * 4);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t3.set_f(a3[i % 2], i * dur * 8);
+	}
+	id = setTimeout(p6, 16 * dur * 1000);
+};
+
+const p6 = _ => {
+	t3.stop();
+	for (let i = 0; i < 8; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 4; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t2.set_f(a2[i % 2], i * dur * 4);
+	}
+	id = setTimeout(p1, 8 * dur * 1000);
+};
 
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
-	start(start_group);
+	p0();
 };
 
 const stop_audio = _ => {
@@ -51,152 +140,28 @@ const stop_audio = _ => {
 	window.stop_audio  = null;
 	clearTimeout(id);
 	id = null;
-	stop(start_group);
+	stop(tones);
 };
-
-let img = n => new c_img("./concert/images/" + n + ".png");
-
-const BLUE          = 0;
-const YELLOW        = 1;
-
-const photo         = img("photo"        );
-const start_border  = img("start_border" );
-const back_border   = img("back_border"  );
-const volume_border = img("volume_border");
-const border_0      = img("border_0"     );
-const border_1      = img("border_1"     );
-const border_2      = img("border_2"     );
-const start_blue    = img("start_blue"   );
-const back_blue     = img("back_blue"    );
-const volume_blue   = img("volume_blue"  );
-const blue_0        = img("blue_0"       );
-const blue_1        = img("blue_1"       );
-const blue_2        = img("blue_2"       );
-const start_yellow  = start_blue.clone_yellow();
-const back_yellow   = back_blue.clone_yellow();
-const volume_yellow = volume_blue.clone_yellow();
-const yellow_0      = blue_0.clone_yellow();
-const yellow_1      = blue_1.clone_yellow();
-const yellow_2      = blue_2.clone_yellow();
-
-let state = null;
-
-let id = null;
-
-const play_0 = _ => {
-	start_group.set(g0);	
-	id = setTimeout(play_1, 4 * 1000);
-};
-
-const play_1 = _ => {
-	start_group.set(g1);
-	setTimeout(play_2, 4 * 1000);
-};
-
-const play_2 = _ => {
-	start_group.set(g2);
-	setTimeout(play_3, 8 * 1000);
-};
-
-const play_3 = _ => {
-	start_group.set(g3);
-	setTimeout(play_4, 16 * 1000);
-};
-
-const play_4 = _ => {
-	start_group.set(g4);
-	setTimeout(play_5, 32 * 1000);
-};
-
-const play_5 = _ => {
-	start_group.set(g3);
-	setTimeout(play_6, 16 * 1000);
-};
-
-const play_6 = _ => {
-	start_group.set(g2);
-	setTimeout(play_1, 8 * 1000);
-};
-
-let start_external_audio = null;
 
 const click_page = _ => {
-    if (click(back_blue)) return run_page("home"); 
-	else start_external_audio = null;
+    if (click(back_blue  )) return run_page("home"); 
     if (click(volume_blue)) return run_volume();
 	if (window.stop_audio === null) {
-//	if (state === null) {
-//		if (click(start_blue)) {
-			state = 0;
-		play_0();
-			// start_group.set(g3);
-			start_audio();
-//		}
-	} else if (state === 0) {
-//		if (click(blue_0)) {
-		// 	state = 1;
-		// 	start_group.set(g1);
-		// } else {
-			state = null;
-			start_group.remove_all();
-			stop_audio();
-//		}
-	} else if (state === 1) {
-		if (click(blue_1)) {
-			state = 2;
-			start_group.set(g2);
-		} else {
-			state = 0;
-			start_group.set(g0);
-		}
-	} else if (state === 2) {
-		if (click(blue_2)) {
-			state = 3;
-			start_group.set(g3);
-		} else {
-			state = 1;
-			start_group.set(g1);
-		}
-	} else if (state === 3) {
-		state = null;
-		state = 2;
-		start_group.set(g2);
+		start_audio();
+	} else {
+		stop_audio();
 	}
-	on_resize();
 };
 
 const draw_page = _ => {
-	draw(bg_green);
-//	if (state === null) {
-	if (window.stop_audio === null) {
-		draw(back_blue);
-		draw(volume_blue);
-		//draw(start_blue);
-		draw(back_border);
-		draw(volume_border);
-		//draw(start_border);
-	} else if (state === 0) {
-	// 	draw(photo);
-	// 	draw(blue_0);
-	// 	draw(border_0);
-	// } else if (state === 1) {
-	// 	draw(photo);
-	// 	draw(blue_1);
-	// 	draw(border_1);
-	// } else if (state === 2) {
-	// 	draw(photo);
-	// 	draw(blue_2);
-	// 	draw(border_2);
-	// } else if (state === 3) {
-		draw(photo);
-	}
+	draw(photo);
+	draw(back_blue);
+	draw(volume_blue);
+	draw(back_border);
+	draw(volume_border);
 };
 
 const run = _ => {
-    if (window.stop_audio !== null && window.stop_audio !== stop_audio) {
-		window.stop_audio();
-		start_external_audio = window.start_audio;
-	}
     on_resize = draw_page;
     on_click  = click_page;
     on_resize();
