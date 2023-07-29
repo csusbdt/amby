@@ -44,13 +44,10 @@ const stop_audio = _ => {
 
 let img = n => new c_img("./bubble/images/" + n + ".png");
 
-const borders       = img("borders");
-const back          = img("back"   );
-const volume        = img("volume" );
-const audio_blue    = img("audio"  );
-const audio_yellow  = audio_blue.clone_yellow();
-
-const audio = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
+const back          = img("back"         );
+const volume        = img("volume"       );
+const back_border   = img("back_border"  );
+const volume_border = img("volume_border");
 
 img = n => new c_img("./block/images/" + n + ".png");
 
@@ -135,7 +132,6 @@ const block_on_yellow = _ => {
 	group.add(seqs);
 	if (window.stop_audio !== stop_audio) {
 		start_audio();
-		audio.on = true;
 	}
 };
 
@@ -149,39 +145,22 @@ const block_on_blue   = _ => {
 
 const block = new c_obj("block", block_on_yellow, block_on_blue);
 
-const draw_objs = _ => {
-	draw(block);
-};
-
-const click_objs = _ => {
-	if (click(block)) return true;
-	return false;
-};
-
-let start_external_audio = null;
-
 const click_page = _ => {
-    if (click(back)) return run_page("home"); 
-	else start_external_audio = null;
-    if (click(volume)) run_volume();
-	if (click(audio) || click_objs()) on_resize();
+    if (click(back  )) return run_page("home"); 
+    if (click(volume)) return run_volume();
+	if (click(block )) on_resize();
 };
 
 const draw_page = _ => {
 	draw(bg_green);
-	draw_objs();
+	draw(block);
     draw(back);
     draw(volume);
-	draw(audio);
-    draw(borders);
+    draw(back_border);
+    draw(volume_border);
 };
 
 const run = _ => {
-    if (window.stop_audio !== null && window.stop_audio !== stop_audio) {
-		window.stop_audio();
-		start_external_audio = window.start_audio;
-	}
-	audio.on = window.stop_audio !== null;
     on_resize = draw_page;
     on_click  = click_page;
     on_resize();
