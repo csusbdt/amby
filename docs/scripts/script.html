@@ -1,0 +1,68 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, interactive-widget=resizes-content">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <style>
+        body { 
+            background-color: rgb(64, 216, 122);
+            margin: 0; 
+            padding: 0; 
+        }
+		pre { tab-size: 4; };
+    </style>
+</head>
+<body onclick="init_audio();">	
+<pre id="script"></pre>
+<script type="module">
+	import "./main.js";
+	
+	const bf      = 90;
+	const b       = bf * Math.pow(PHI, -7) / 2;
+	const f       = (n, i) => bf * Math.pow(2, i/n);
+	const dur     = 1;
+
+	const tone_0 = new c_tone(0, b, 1);
+	const tone_1 = new c_tone(0, b, 1);
+
+	const s1 = [];
+	for (let i = 0; i < 24; ++i) {
+		s1.push(f(12, i));
+	}
+	for (let i = 24; i > 0; --i) {
+		s1.push(f(12, i));
+	}
+
+	let id = null;
+	let i = 0;
+
+	const start = _ => {
+		tone_0.set_f(f(12, 0));
+		tone_1.set_f(s1[0]);
+		tone_0.start();
+		tone_1.start();
+		id = setInterval(loop, dur * 1000);
+	};
+
+    const loop = _ => {
+		if (++i > s1.length) i = 0;
+		tone_1.set_f(s1[i]);
+    };
+    
+    document.body.addEventListener("click", _ => {
+		if (id === null) {
+			tone_0.start();
+			tone_1.start();
+			tone_0.set_f(f(12, 0));
+			tone_1.set_f(s1[0]);
+			id = setInterval(loop, dur * 1000);
+		} else {
+			clearInterval(id);
+			id = null;
+			tone_0.stop();
+			tone_1.stop();
+		}
+	});
+	
+    document.getElementById("script").append(document.body.innerHTML);
+</script>
+</body>

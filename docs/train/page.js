@@ -1,5 +1,5 @@
 import c_img         from "../common/img.js";
-import c_toggle      from "../common/toggle.js";
+//import c_toggle      from "../common/toggle.js";
 import c_tone        from "../common/tone.js";
 import c_start_group from "../common/start_group.js";
 import c_seq         from "../common/seq.js";
@@ -60,10 +60,6 @@ let img = n => new c_img("./bloby/images/" + n + ".png");
 const borders       = img("borders"    );
 const back          = img("back"       );
 const volume        = img("volume"     );
-const audio_blue    = img("audio"      );
-const audio_yellow  = audio_blue.clone_yellow();
-
-const audio = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
 
 img = n => new c_img("./train/images/" + n + ".png");
 
@@ -107,6 +103,7 @@ const draw_objs = _ => {
 const click_objs = _ => {
 	if (state === 0 && click(rect)) {
 		state = 1;
+		start_audio();
 		start_group.set(g1);
 		return true;
 	} else if (state === 1 && click(train_blue)) {
@@ -124,18 +121,19 @@ const click_objs = _ => {
 	} else if (state === 4 && click(rect)) {
 		state = 0;
 		start_group.remove_all();
+		stop_audio();
 		return true;
 	}
 	return false;
 };
 
-let start_external_audio = null;
-
 const click_page = _ => {
-    if (click(back)) return run_page("home"); 
-	else start_external_audio = null;
-    if (click(volume)) run_volume();
-	if (click(audio) || click_objs()) on_resize();
+    if (click(back)) {
+		stop_audio();
+		return run_page("home");
+	}
+    if (click(volume)) return run_volume();	
+	if (click_objs()) on_resize();
 };
 
 const draw_page = _ => {
@@ -143,16 +141,10 @@ const draw_page = _ => {
 	draw_objs();
     draw(back);
     draw(volume);
-	draw(audio);
     draw(borders);
 };
 
 const run = _ => {
-    if (window.stop_audio !== null && window.stop_audio !== stop_audio) {
-		window.stop_audio();
-		start_external_audio = window.start_audio;
-	}
-	audio.on = window.stop_audio !== null;
     on_resize = draw_page;
     on_click  = click_page;
     on_resize();
