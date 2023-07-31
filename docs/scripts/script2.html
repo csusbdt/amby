@@ -1,118 +1,171 @@
-<body>
-<pre id="script"></pre>
-<script>
-	const PHI     = 1.61803398875;
-    const bf      = 90;
-    const b       = bf * Math.pow(PHI, -7);
-    const f       = (n, i) => bf * Math.pow(2, i/n);
-	
-    let audio     = null;
-    let o_1_left  = null;
-    let o_1_right = null;
-    let o_2_left  = null;
-    let o_2_right = null;
-    let o_3_left  = null;
-    let o_3_right = null;
-	let g         = null;
-	let id        = null;
-
-	const s1 = [ // v = .6
-		bf * f(16,  0), 
-		bf * f(16,  4), 
-		bf * f(16,  8), 
-		bf * f(16,  8), 
-		bf * f(16, -2), 
-		bf * f(16,  2), 
-		bf * f(16,  6), 
-		bf * f(16,  6)
-	];
-
-	const s2 = [ // v = 1, d = 8
-		0,
-		bf * f(16, 25), 
-		bf * f(16, 20), 
-		bf * f(16, 17), 
-		bf * f(16, 14), 
-	];
-
-	const s3 = [  // v = .8, d = 40
-		bf * f(20, 25), 
-		bf * f(20, 29)
-	];
-	
-	let i1 = 0;
-	let i2 = 0;
-	let i3 = 0;
-
-    const loop = _ => {
-       	o_1_left .frequency.setTargetAtTime(s1[i1]    , audio.currentTime, .05);
-		o_1_right.frequency.setTargetAtTime(s1[i1] + b, audio.currentTime, .05); 
-		if (i1 % 8 === 0) {
-	       	o_2_left .frequency.setTargetAtTime(s2[i2]    , audio.currentTime, .05);
-			o_2_right.frequency.setTargetAtTime(s2[i2] + b, audio.currentTime, .05); 
-			i2 = (i2 + 1) % s2.length;
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, interactive-widget=resizes-content">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <style>
+        body { 
+            background-color: rgb(64, 216, 122);
+            margin: 1vmin; 
+        }
+		#pre { 
+			tab-size: 4; 
+			display: none; 
+			white-space: pre;
 		}
-		if (i1 % 40 === 0) {
-	       	o_3_left .frequency.setTargetAtTime(s3[i3]    , audio.currentTime, .05);
-			o_3_right.frequency.setTargetAtTime(s3[i3] + b, audio.currentTime, .05); 
-			i3 = (i3 + 1) % s3.length;
+		#div { 
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			height: 100vh;
+			font-size:x-large;
 		}
-		i1 = (i1 + 1) % 40;
-    };
+    </style>
+</head>
+<body onclick="init_audio();">
+<div id="div">
+	Ambient Headphone Music<br><br>
+	Click page to start and stop
+</div>
+<pre id="pre"></pre>
+<script id="script" type="module">
+import "./main.js";
+	
+const bf     = 90;
+const b      = bf * Math.pow(PHI, -7) / 2;
+const f      = (n, i) => bf * Math.pow(2, i/n);
+const dur    = 1;
+
+const a0 = [ f(16,  5), f(16,  0) ];
+const a1 = [ f(16, 10), f(16, 13) ]; 
+const a2 = [ f(16, 17), f(16, 24) ];
+const a3 = [ f(16, 27), f(16, 30) ];
+const a4 = [ f(16, 33), f(16, 36) ];
+
+const t0 = new c_tone(a0[0], b, .6);
+const t1 = new c_tone(a1[0], b, .8);
+const t2 = new c_tone(a2[0], b,  1);
+const t3 = new c_tone(a3[0], b, .5);
+const t4 = new c_tone(a4[0], b, .3);
+const tones = [ t0, t1, t2, t3, t4 ];
+
+let id = null;
+
+const p0 = _ => {
+	t0.start();
+	for (let i = 0; i < 4; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	id = setTimeout(p1, 4 * dur * 1000);
+};
+
+const p1 = _ => {
+	t2.stop();
+	t1.start();
+	for (let i = 0; i < 4; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	id = setTimeout(p2, 4 * dur * 1000);
+};
+
+const p2 = _ => {
+	t2.start();
+	for (let i = 0; i < 8; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 4; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t2.set_f(a2[i % 2], i * dur * 4);
+	}
+	id = setTimeout(p3, 8 * dur * 1000);
+};
+
+const p3 = _ => {
+	t3.start();
+	for (let i = 0; i < 16; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 8; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	for (let i = 0; i < 4; ++i) {
+		t2.set_f(a2[i % 2], i * dur * 4);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t3.set_f(a3[i % 2], i * dur * 8);
+	}
+	id = setTimeout(p4, 16 * dur * 1000);
+};
+
+const p4 = _ => {
+	t4.start();
+	for (let i = 0; i < 32; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 16; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	for (let i = 0; i < 8; ++i) {
+		t2.set_f(a2[i % 2], i * dur * 4);
+	}
+	for (let i = 0; i < 4; ++i) {
+		t3.set_f(a3[i % 2], i * dur * 8);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t4.set_f(a4[i % 2], i * dur * 16);
+	}
+	id = setTimeout(p5, 32 * dur * 1000);
+};
+
+const p5 = _ => {
+	t4.stop();
+	for (let i = 0; i < 16; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 8; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	for (let i = 0; i < 4; ++i) {
+		t2.set_f(a2[i % 2], i * dur * 4);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t3.set_f(a3[i % 2], i * dur * 8);
+	}
+	id = setTimeout(p6, 16 * dur * 1000);
+};
+
+const p6 = _ => {
+	t3.stop();
+	for (let i = 0; i < 8; ++i) {
+		t0.set_f(a0[i % 2], i * dur);
+	}
+	for (let i = 0; i < 4; ++i) {
+		t1.set_f(a1[i % 2], i * dur * 2);
+	}
+	for (let i = 0; i < 2; ++i) {
+		t2.set_f(a2[i % 2], i * dur * 4);
+	}
+	id = setTimeout(p1, 8 * dur * 1000);
+};
     
-    document.body.addEventListener("click", _ => {
-		if (audio === null) {
-	        audio = new (window.AudioContext || window.webkitAudioContext)();
-		}
-		if (id === null) {
-			i1 = 0;
-			i2 = 0;
-			i3 = 0;
-	        const g = audio.createGain();
-	        g.gain.value = 0;
-	        g.connect(audio.destination);
-	        g.gain.setTargetAtTime(.5, audio.currentTime, .05);
-	    	const merger = audio.createChannelMerger();
-	    	merger.connect(g);
-	    	o_1_left  = audio.createOscillator();
-	    	o_1_right = audio.createOscillator();
-	    	o_2_left  = audio.createOscillator();
-	    	o_2_right = audio.createOscillator();
-	    	o_3_left  = audio.createOscillator();
-	    	o_3_right = audio.createOscillator();
-	        o_1_left .connect(merger, 0, 0);
-	        o_1_right.connect(merger, 0, 1);
-	        o_2_left .connect(merger, 0, 0);
-	        o_2_right.connect(merger, 0, 1);
-	        o_3_left .connect(merger, 0, 0);
-	        o_3_right.connect(merger, 0, 1);
-	        o_1_left .frequency.value = bf;
-	        o_1_right.frequency.value = bf;
-	        o_2_left .frequency.value = bf;
-	        o_2_right.frequency.value = bf;
-	        o_3_left .frequency.value = bf;
-	        o_3_right.frequency.value = bf;
-	        o_1_left .connect(g);
-	        o_1_right.connect(g);
-	        o_2_left .connect(g);
-	        o_2_right.connect(g);
-	        o_3_left .connect(g);
-	        o_3_right.connect(g);
-	        o_1_left .start();
-	        o_1_right.start();
-	        o_2_left .start();
-	        o_2_right.start();
-	        o_3_left .start();
-	        o_3_right.start();
-	        id = setInterval(loop, 1000);
-		} else {
-			g.gain.setTargetAtTime(.5, audio.currentTime, .05);
-			
-			clearInterval(id);
-			id = null;
-		}
-
-    });
-    document.getElementById("script").append(document.body.innerHTML);
+document.body.addEventListener("click", _ => {
+	document.getElementById("div").style.display = "none";
+	document.getElementById("pre").style.display = "block";
+	if (id === null) {
+		p0();
+	} else {
+		clearTimeout(id);
+		id = null;
+		tones.forEach(tone => tone.stop());
+	}
+});
+	
+document.getElementById("pre").append(
+	document.getElementById("script").textContent
+);
 </script>
 </body>
