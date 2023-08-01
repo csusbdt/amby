@@ -80,8 +80,13 @@ c_tone.prototype.set_f = function(f, t = 0) {
 	if (f === this.f) return this;
 	this.f = f;
 	if (this.g !== null) {
-		this.o_left.frequency.setTargetAtTime(this.f, audio.currentTime + t, .05);
-		this.o_right.frequency.setTargetAtTime(this.f + this.b, audio.currentTime + t, .05);
+	    if (this.f < this.b) {
+			this.o_left .frequency.setTargetAtTime(this.f, audio.currentTime + t, .05);
+			this.o_right.frequency.setTargetAtTime(this.f, audio.currentTime + t, .05);
+	    } else {
+			this.o_left .frequency.setTargetAtTime(this.f - this.b, audio.currentTime + t, .05);
+			this.o_right.frequency.setTargetAtTime(this.f + this.b, audio.currentTime + t, .05);
+	    }
 	}
 	return this;
 };
