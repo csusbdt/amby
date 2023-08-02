@@ -95,7 +95,11 @@ c_tone.prototype.set_b = function(b, t = 0) {
 	if (b === this.b) return this;
 	this.b = b;
 	if (this.g !== null) {
-		this.o_right.frequency.setTargetAtTime(this.f + this.b, audio.currentTime + t, .05);
+	    if (this.f < this.b) {
+			this.o_right.frequency.setTargetAtTime(this.f, audio.currentTime + t, .05);
+		} else {
+			this.o_right.frequency.setTargetAtTime(this.f + this.b, audio.currentTime + t, .05);
+		}
 	}
 	return this;
 };
