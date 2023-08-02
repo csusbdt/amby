@@ -1,7 +1,7 @@
 import c_tone from "../common/tone.js";
 
 const bf     = 90;
-const b      = bf * Math.pow(PHI, -7) / 2;
+const b      = bf * Math.pow(PHI, -8);
 const f      = (n, i) => bf * Math.pow(2, i/n);
 const dur    = 1;
 

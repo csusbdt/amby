@@ -30,7 +30,7 @@ let start_external_audio = null;
 
 const click_page = _ => {
     if (click(back)) {
-		stop_audio();
+		if (window.stop_audio !== null) stop_audio();
 		return run_page("home"); 
 	}
     if (click(volume)) return run_volume();

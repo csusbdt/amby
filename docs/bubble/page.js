@@ -6,7 +6,7 @@ import c_seq         from "../common/seq.js";
 import run_volume    from "../volume/page.js";
 
 const bf    = 90;
-const bin   = bf * Math.pow(PHI, -7);
+const bin   = bf * Math.pow(PHI, -8);
 const dur   = 1000;
 const group = new c_start_group();
 

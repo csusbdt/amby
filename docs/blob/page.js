@@ -10,7 +10,7 @@ const volume  = new c_img("./blob/images/volume.png");
 const toggles = [];
 
 const bf            = 90;
-const bin           = bf * Math.pow(PHI, -7);
+const bin           = bf * Math.pow(PHI, -8);
 const dur           = 1000;
 const start_group   = new c_start_group();
 

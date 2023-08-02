@@ -9,7 +9,7 @@ const group = new c_start_group();
 // night group taken from ring center
 
 const ring_bf    = 90;
-const ring_bin   = ring_bf * Math.pow(PHI, -7);
+const ring_bin   = ring_bf * Math.pow(PHI, -8);
 const ring_dur   = 1000;
 
 const ring_1 = new c_seq(ring_dur * 1, [ 
@@ -86,7 +86,7 @@ const ring_ring = new c_seq(ring_dur * 1, [
 // day group
 
 const day_bf    = 90;
-const day_bin   = day_bf * Math.pow(PHI, -7);
+const day_bin   = day_bf * Math.pow(PHI, -8);
 const day_dur   = 1000;
 
 const day_center = new c_seq(day_dur, [ 
