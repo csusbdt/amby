@@ -1,4 +1,4 @@
-import c_tone        from "../common/tone.js";
+import c_tone from "../common/tone.js";
 
 const bf     = 90;
 const b      = bf * Math.pow(PHI, -7) / 2;

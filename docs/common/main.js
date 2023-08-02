@@ -122,8 +122,7 @@ stop_nothing();
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// alpha === I read that false speeds up drawing of transparent images
-window.ctx = canvas.getContext('2d', { alpha: false });
+window.ctx = canvas.getContext('2d');
 
 const click_test_canvas = document.createElement('canvas');
 const click_test_ctx    = click_test_canvas.getContext("2d", { willReadFrequently: true });
@@ -238,7 +237,6 @@ window.draw = (o, x = 0, y = 0) => {
 };
 
 window.click = (o, x = 0, y = 0) => {
-//	if (typeof o.click === 'undefined') {
 	if (Array.isArray(o)) {
 		for (const i in o) {
 			if (o[i].click(x, y)) return true;
