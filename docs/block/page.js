@@ -1,45 +1,18 @@
-import c_img         from "../common/img.js";
-import c_toggle      from "../common/toggle.js";
-import c_tone        from "../common/tone.js";
-import c_start_group from "../common/start_group.js";
-import c_seq         from "../common/seq.js";
-import run_volume    from "../volume/page.js";
-
-const bf    = 90;
-const bin   = bf * Math.pow(PHI, -7);
-const dur   = 1000;
-const group = new c_start_group();
-
-const s_1 = new c_seq(dur * 1, [ 
-	bf * p(2, 16, 12), 
-	bf * p(2, 16, 15), 
-	bf * p(2, 16, 8), 
-	bf * p(2, 16, 11) 
-], bin, 1);
-
-const s_2 = new c_seq(dur * 8, [ 
-	bf * p(2, 16, 2),
-	bf * p(2, 16, -2)
-], bin, .7);
-
-const s_3 = new c_seq(dur * 16, [ 
-	0, 
-	bf * p(2, 16, 22), 
-	bf * p(2, 16, 18), 
-], bin, .8);
-
-const seqs = [ s_1, s_2, s_3 ];
+import c_img         from "../common/img.js"    ;
+import c_toggle      from "../common/toggle.js" ;
+import run_volume    from "../volume/page.js"   ;
+import music         from "./music.js"          ;
 
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
-	start(group);
+	music();
 };
 
 const stop_audio = _ => {
 	window.start_audio = start_audio;
 	window.stop_audio  = null;
-	stop(group);
+	music();
 };
 
 let img = n => new c_img("./bubble/images/" + n + ".png");
@@ -129,14 +102,12 @@ c_obj.prototype.click = function() {
 };
 
 const block_on_yellow = _ => { 
-	group.add(seqs);
 	if (window.stop_audio !== stop_audio) {
 		start_audio();
 	}
 };
 
 const block_on_blue   = _ => { 
-	group.remove_all(); 
 	if (window.stop_audio === stop_audio) {
 		stop_audio();
 		audio.on = false;
