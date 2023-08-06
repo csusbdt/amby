@@ -30,7 +30,7 @@ const click_page = _ => {
     if (click(rpm        )) return goto_page("rpm"        );
     if (click(bathysphere)) return goto_page("bathysphere");
     if (click(train      )) return location = "./scripts/";
-    if (click(concert    )) return goto_page("concert"    );
+    if (click(concert    )) return goto_page("wheel"      );
     if (click(volume     )) return run_volume();
     click(audio);
     on_resize();
