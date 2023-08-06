@@ -23,8 +23,8 @@ const volume        = img("volume"       );
 
 const photo   = img("photo");
 const green   = img("green");
-const cover_border = img("border_0");
-const cover_blue   = img("blue_0");
+const cover_border = img("border_2");
+const cover_blue   = img("blue_2");
 
 let start_external_audio = null;
 
@@ -46,6 +46,7 @@ const click_page = _ => {
 
 const draw_page = _ => {
 	draw(bg_green);
+	draw(photo);
 	if (window.stop_audio === null) {
 	    draw(back);
 	    draw(volume);
@@ -54,9 +55,9 @@ const draw_page = _ => {
 		draw(cover_blue);
 		draw(cover_border);
 	} else {
-		draw(photo);
-		draw(green);
-		draw(cover_border);
+//		draw(photo);
+		// draw(green);
+		// draw(cover_border);
 	    draw(back);
 	    draw(volume);
 	    draw(back_border);
