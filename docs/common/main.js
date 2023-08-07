@@ -58,7 +58,12 @@ window.get = (key, _default) => {
 	return app_state[key];
 };
 
-import("../" + app_state.page + "/page.js").then(o => o.run());
+import("../" + app_state.page + "/page.js")
+	.then(o => o.run())
+	.catch(_ => {
+		set('page', 'home');
+		location.reload();
+	});
 
 window.goto_page = page => { set("page", page); location.reload(); };
 

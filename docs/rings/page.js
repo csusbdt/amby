@@ -14,11 +14,10 @@ const bin   = bf * Math.pow(PHI, -8);
 const dur   = 1000;
 const group = new c_start_group();
 
-const b1 = 2;
 const n1 = 3;
 const center_1 = new c_seq(dur * 1, [ 
-	bf * p(b1, n1, 0), 
-	bf * p(b1, n1, 1) 
+	bf * p(2, n1, 0), 
+	bf * p(2, n1, 1) 
 ], bin, .7);
 
 const center_2 = new c_seq(dur * 4, [
