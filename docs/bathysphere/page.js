@@ -17,23 +17,23 @@ const stop_audio = _ => {
 let img = n => new c_img("./bathysphere/images/" + n + ".png");
 
 const back_border   = img("back_border"  );
-const back          = img("back"         );
+const back_blue     = img("back_blue"    );
 const volume_border = img("volume_border");
-const volume        = img("volume"       );
+const volume_blue   = img("volume_blue"  );
 
-const photo   = img("photo");
-const green   = img("green");
-const cover_border = img("border_2");
-const cover_blue   = img("blue_2");
+const photo         = img("photo"        );
+const cover_green   = img("cover_green"  );
+const cover_border  = img("cover_border" );
+const cover_blue    = img("cover_blue"   );
 
 let start_external_audio = null;
 
 const click_page = _ => {
-    if (click(back)) {
+    if (click(back_blue)) {
 		if (window.stop_audio !== null) stop_audio();
 		return run_page("home"); 
 	}
-    if (click(volume)) return run_volume();
+    if (click(volume_blue)) return run_volume();
 	if (click(cover_blue)) {
 		if (window.stop_audio === null) {
 			start_audio();
@@ -45,21 +45,15 @@ const click_page = _ => {
 };
 
 const draw_page = _ => {
-	draw(bg_green);
-	draw(photo);
-	if (window.stop_audio === null) {
-	    draw(back);
-	    draw(volume);
-	    draw(back_border);
-	    draw(volume_border);
-		draw(cover_blue);
-		draw(cover_border);
-	} else {
-	    draw(back);
-	    draw(volume);
-	    draw(back_border);
-	    draw(volume_border);
-	}
+	draw(bg_green     );
+	draw(photo        );
+	draw(cover_green  );
+	if (window.stop_audio === null) draw(cover_blue);
+	draw(cover_border );
+    draw(back_blue    );
+    draw(volume_blue  );
+    draw(back_border  );
+    draw(volume_border);
 };
 
 const run = _ => {

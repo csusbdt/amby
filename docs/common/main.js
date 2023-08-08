@@ -22,6 +22,10 @@ window.addEventListener("error", e => {
 	i += e.filename.substring(i).indexOf("/") + 1;
 	const filename = e.filename.substring(i);
     document.body.innerHTML = `<h1>${e.error}<br>${filename}<br>Line ${e.lineno}</h1>`;
+	document.body.addEventListener('click', e => {
+		set('page', 'home'); 
+		location.reload();
+	});
 });
 
 window.addEventListener('unhandledrejection', e => {
@@ -32,6 +36,10 @@ window.addEventListener('unhandledrejection', e => {
 	} else {
 	    document.body.innerHTML = `<h1>${e.reason}<br>${e.reason.message}</h1>`;
 	}
+	document.body.addEventListener('click', e => {
+		set('page', 'home'); 
+		location.reload();
+	});
 });
 
 window.log = m => console.log(m);
@@ -58,12 +66,14 @@ window.get = (key, _default) => {
 	return app_state[key];
 };
 
-import("../" + app_state.page + "/page.js")
-	.then(o => o.run())
-	.catch(_ => {
-		set('page', 'home');
-		location.reload();
-	});
+import("../" + app_state.page + "/page.js").then(o => o.run());
+
+// import("../" + app_state.page + "/page.js")
+// 	.then(o => o.run())
+// 	.catch(_ => {
+// 		set('page', 'home');
+// 		location.reload();
+// 	});
 
 window.goto_page = page => { set("page", page); location.reload(); };
 
