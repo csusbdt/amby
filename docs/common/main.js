@@ -22,10 +22,13 @@ window.addEventListener("error", e => {
 	i += e.filename.substring(i).indexOf("/") + 1;
 	const filename = e.filename.substring(i);
     document.body.innerHTML = `<h1>${e.error}<br>${filename}<br>Line ${e.lineno}</h1>`;
-	document.body.addEventListener('click', e => {
-		set('page', 'home'); 
-		location.reload();
-	});
+	setTimeout(_ => {
+		document.body.addEventListener('click', e => {
+			set('page', 'home'); 
+			location.reload();
+		});
+	}, 0);
+	if (audio !== null) audio.close();
 });
 
 window.addEventListener('unhandledrejection', e => {
