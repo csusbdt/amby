@@ -27,7 +27,7 @@ const click_page = _ => {
     if (click(ufo        )) return goto_page("ufo"        );
     if (click(tones      )) return goto_page("bubble"     );
     if (click(block      )) return goto_page("block"      );
-    if (click(rpm        )) return goto_page("rpm"        );
+    if (click(rpm        )) return goto_page("bloby"      );
     if (click(bathysphere)) return goto_page("bathysphere");
     if (click(train      )) return location = "./scripts/";
     if (click(concert    )) return goto_page("wheel"      );
