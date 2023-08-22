@@ -39,7 +39,7 @@ const a0 = [ f(23,  0), f(23,  5) ];
 const a1 = [ f(15, 27), f(15, 33) ]; 
 const a2 = [ f(19, 29), f(19, 31) ];
 const a3 = [ f(23, 10), f(23, 15) ];
-const a4 = [ 0, 0, f(23, 23), f(23, 28), f(23, 46), f(23, 51) ];
+const a4 = [ 0, f(23, 23), f(23, 28), f(23, 46), f(23, 51) ];
 
 const t0 = new c_tone(a0[0], b,  1);
 const t1 = new c_tone(a1[0], b, .4);
@@ -51,7 +51,7 @@ const tones = [ t0, t1, t2, t3, t4 ];
 let id = null;
 let i  = 0;
 	
-const len = 16 * 6;
+const len = 16 * 5;
 
 const loop = _ => {
 	i = 0;
@@ -69,7 +69,7 @@ const loop = _ => {
 		t3.set_f(a3[i % 2], i * 8 * dur);
 	}
 	for (let i = 0; i < len >> 4; ++i) {
-		t4.set_f(a4[i % 6], i * 16 * dur);
+		t4.set_f(a4[i % 5], i * 16 * dur);
 	}
 	id = setTimeout(loop, len * dur * 1000);
 };
