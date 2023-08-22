@@ -11,6 +11,8 @@ const tones        = new c_img("./home/images/tones.png"  );
 const block        = new c_img("./home/images/block.png"  );
 const rpm          = new c_img("./home/images/stack.png"  );
 const bathysphere  = new c_img("./home/images/circle.png" );
+const bathysphere1 = new c_img("./home/images/circle1.png");
+const bathysphere1_border = new c_img("./home/images/circle1_border.png");
 const bathysphere2 = new c_img("./home/images/circle2.png");
 const bathysphere2_border = new c_img("./home/images/circle2_border.png");
 const train        = new c_img("./home/images/man.png"    );
@@ -31,6 +33,7 @@ const click_page = _ => {
     if (click(block      )) return goto_page("block"      );
     if (click(rpm        )) return goto_page("bloby"      );
     if (click(bathysphere)) return goto_page("bathysphere");
+    if (click(bathysphere1) || click(bathysphere1_border)) return goto_page("bathysphere3");
     if (click(bathysphere2) || click(bathysphere2_border)) return goto_page("bathysphere2");
     if (click(train      )) return location = "./scripts/";
     if (click(concert    )) return goto_page("wheel"      );
@@ -50,6 +53,8 @@ const draw_page = _ => {
     draw(block);
     draw(rpm);
     draw(bathysphere);
+    draw(bathysphere1);
+    draw(bathysphere1_border);
     draw(bathysphere2);
     draw(bathysphere2_border);
     draw(train);
