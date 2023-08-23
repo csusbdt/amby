@@ -23,7 +23,7 @@ window.init_audio = _ => {
 		main_gain.gain.value = 1;
 		main_gain.connect(compressor);
 		gain = audio.createGain();
-		gain.gain.value = 1;
+		gain.gain.value = .5;
 		gain.connect(main_gain);
 	}
 };

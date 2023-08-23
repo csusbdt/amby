@@ -6,11 +6,11 @@ import run_volume    from "../volume/page.js";
 
 const group = new c_start_group();
 
-// night group taken from ring center
-
 const ring_bf    = 90;
 const ring_bin   = ring_bf * Math.pow(PHI, -8);
 const ring_dur   = 1000;
+
+// ufo = ring1, ring2, ring3, ring4
 
 const ring_1 = new c_seq(ring_dur * 1, [ 
 	1 / 1 * ring_bf * (PHI + 0), 
