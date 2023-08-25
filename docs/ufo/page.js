@@ -1,429 +1,147 @@
-import c_img         from "../common/img.js";
-import c_toggle      from "../common/toggle.js";
-import c_start_group from "../common/start_group.js";
-import c_seq         from "../common/seq.js";
-import run_volume    from "../volume/page.js";
+import c_img         from "../common/img.js"  ;
+import run_volume    from "../volume/page.js" ;
+import music         from "./music.js"        ;
 
-const group = new c_start_group();
-
-const ring_bf    = 90;
-const ring_bin   = ring_bf * Math.pow(PHI, -8);
-const ring_dur   = 1000;
-
-// ufo = ring1, ring2, ring3, ring4
-
-const ring_1 = new c_seq(ring_dur * 1, [ 
-	1 / 1 * ring_bf * (PHI + 0), 
-	1 / 1 * ring_bf * (PHI + 1)
-], ring_bin);
-
-const ring_2 = new c_seq(ring_dur * 2, [
-	2 / 3 * ring_bf * (PHI + 0), 
-	4 / 3 * ring_bf * (PHI - 1)
-], ring_bin);
-
-const ring_3 = new c_seq(ring_dur * 4, [
-	6 / 3 * ring_bf * (PHI - 0), 
-	7 / 3 * ring_bf * (PHI - 0)
-], ring_bin);
-
-const ring_4 = new c_seq(ring_dur * 16, [
-	1 / 3 * ring_bf * (PHI + 0), 
-	5 / 3 * ring_bf * (PHI + 0),
-	7 / 3 * ring_bf * (PHI + 0),
-	4 / 3 * ring_bf * (PHI + 0)
-], ring_bin, .8);
-
-const p = (b, n, i) => Math.pow(Math.pow(b, 1 / n), i);
-
-const ring_5 = new c_seq(ring_dur * 1 *5, [ 
-	p(PHI, 6, 0) * ring_bf,
-	p(PHI, 6, 1) * ring_bf,
-	p(PHI, 6, 2) * ring_bf,
-	p(PHI, 6, 3) * ring_bf,
-	p(PHI, 6, 4) * ring_bf,
-	p(PHI, 6, 5) * ring_bf,
-	p(PHI, 6, 6) * ring_bf
-], ring_bin, 1);
-
-const ring_6 = new c_seq(ring_dur * 7 *5, [
-	p(PHI, 7, 0) * ring_bf,
-	p(PHI, 7, 1) * ring_bf,
-	p(PHI, 7, 2) * ring_bf,
-	p(PHI, 7, 3) * ring_bf,
-	p(PHI, 7, 4) * ring_bf,
-	p(PHI, 7, 5) * ring_bf,
-	p(PHI, 7, 6) * ring_bf,
-	p(PHI, 7, 7) * ring_bf
-], ring_bin, 1);
-
-const ring_7 = new c_seq(ring_dur * 9, [
-	5 / 4 * ring_bf * (PHI + 0), 
-	9 / 4 * ring_bf * (PHI + 0),
-	6 / 4 * ring_bf * (PHI + 1), 
-	7 / 4 * ring_bf * (PHI + 1),
-	6 / 4 * ring_bf * (PHI + 2), 
-	4 / 4 * ring_bf * (PHI + 2)
-], ring_bin, .5);
-
-const ring_8 = new c_seq(ring_dur * 36, [
-	1 / 3 * ring_bf * (PHI + 0), 
-	5 / 3 * ring_bf * (PHI + 0),
-	7 / 3 * ring_bf * (PHI + 0),
-	4 / 3 * ring_bf * (PHI + 0)
-], ring_bin, 1);
-
-const ring_ring = new c_seq(ring_dur * 1, [
-	3 / 4 * ring_bf * (PHI + 2), 
-	3 / 4 * ring_bf * (PHI + 2), 
-	5 / 3 * ring_bf * (PHI + 0),
-	5 / 4 * ring_bf * (PHI + 2)
-], ring_bin, .7);
-
-// const beam_taking  = new c_seq(ring_dur / 3, [ night_bf * PHI        , night_bf * PHI * PHI   ], night_bin, .5);
-// const beam_putting = new c_seq(night_dur / 2, [ sp1(night_bf * PHI, 5), sp1(night_bf * PHI, 2) ], night_bin, .5);
-
-// day group
-
-const day_bf    = 90;
-const day_bin   = day_bf * Math.pow(PHI, -8);
-const day_dur   = 1000;
-
-const day_center = new c_seq(day_dur, [ 
-	sp1(day_bf, 0), sp1(day_bf, 3), sp1(day_bf, 3), sp1(day_bf, 1), sp1(day_bf, 2) 
-], day_bin);
-
-const day_accent = new c_seq(day_dur * 2, [ 
-	day_bf * 2, sp1(day_bf * 2 * PHI, 3), day_bf * 2, sp1(day_bf * 2, 0) 
-], day_bin, .6);
-
-const day_a_f = day_bf * Math.pow(2 * (PHI - 1), 3);
-const day_a = new c_seq(day_dur * 3, [ 
-	sp1(day_a_f, 0), sp1(day_a_f, 3), sp1(day_a_f, 3), sp1(day_a_f, 1), sp1(day_a_f, 2) 
-], day_bin);
-
-const day_b_f = day_bf * Math.pow(2 * (PHI - 1), 2);
-const day_b = new c_seq(day_dur * 9, [ 
-	sp1(day_b_f, 0), sp1(day_b_f, 3), sp1(day_b_f, 3), sp1(day_b_f, 1), sp1(day_b_f, 2) 
-], day_bin);
-
-const day_c_f = day_bf * Math.pow(2 * (1 - PHI), 5);
-const day_c = new c_seq(day_dur * 6, [ 
-	day_c_f, day_c_f * (PHI - 1), day_c_f * (PHI + 1) / 2, day_c_f * PHI
-], day_bin);
-
-const day_e_f = day_bf * 2;
-const day_e = new c_seq(day_dur * 9, [
-	sp1(day_e_f, 0), sp1(day_e_f, 3), sp1(day_e_f, 1), sp1(day_e_f, 2), sp1(day_e_f, 4)
-], day_bin);
-
-
-
-const ufo = {
-	i :    0,
-	id: null,
-	start: function() {
-		this.id = setTimeout(this.next.bind(this), 1000);
-	},
-	next: function() {
-		if (++this.i === 9) this.i = 0;
-		if (this.i === 0) { beam.state = OFF; man.state = IN_VALLEY; }
-		else if (this.i === 1) { man.state = OUTSIDE_HOUSE; }
-		else if (this.i === 2) { man.state = INSIDE_HOUSE; }
-		else if (this.i === 3) { ship.state = OVER_HOUSE; }
-		else if (this.i === 4) { man.state = OUTSIDE_HOUSE; }
-		else if (this.i === 5) { beam.state = TAKING; }
-		else if (this.i === 6) { beam.state = OFF; man.state = INSIDE_SHIP; }
-		else if (this.i === 7) { ship.state = OVER_VALLEY; }
-		else if (this.i === 8) { beam.state = PUTTING; }
-		this.id = setTimeout(this.next.bind(this), 1000);
-		on_resize();
-	},
-	stop : function() {
-		clearTimeout(this.id);
-		this.id = null;
+function c_obj(images, x, y) {
+	if (Array.isArray(images)) {
+		this.images = images;
+	} else {
+		this.images = [ images ];
 	}
+	this.x = x;
+	this.y = y;
+}
+
+c_obj.prototype.draw = function(x, y) {
+	this.images.forEach(o => o.draw(x + this.x, y + this.y));
 };
 
+c_obj.prototype.click = function() {
+	return this.images[0].click(this.x, this.y);
+};
 
+const obj = (images, x = 0, y = 0) => new c_obj(images, x, y);
+
+let img = n => new c_img("./wheel/images/" + n + ".png");
+
+const back   = obj([ img("back_blue"  ), img("back_border"  ) ]);
+const volume = obj([ img("volume_blue"), img("volume_border") ]);
+
+img = n => new c_img("./man/images/" + n + ".png");
+
+const green         = img("green");
+
+const sun_yellow    = obj([ img("sun_yellow")              , img("sun_border") ], 100);
+const sun_white     = obj([ img("sun_yellow").clone_white(), img("sun_border") ], 100);
+
+const beam_6        = img("beam_white");
+const beam_2        = obj(beam_6, -460, 10);
+
+const ship_blue     = obj([ img("ship_blue")               , img("ship_border") ]);
+const ship_yellow   = obj([ img("ship_blue").clone_yellow(), img("ship_border") ]);
+const ship_blue_0   = obj(ship_blue  , -690, 0);
+const ship_blue_1   = obj(ship_blue  , -575, 0);
+const ship_blue_2   = obj(ship_blue  , -460, 0);
+const ship_yellow_2 = obj(ship_yellow, -460, 0);
+const ship_yellow_3 = obj(ship_yellow, -306, 0);
+// const ship_yellow_3 = obj(ship_yellow, -345, 0);
+// const ship_yellow_4 = obj(ship_yellow, -230, 0);
+// const ship_yellow_5 = obj(ship_yellow, -115, 0);
+const ship_yellow_5 = obj(ship_yellow, -153, 0);
+const ship_yellow_6 = obj(ship_yellow,    0, 0);
+const ship_blue_6   = obj(ship_blue  ,    0, 0);
+const ship_blue_7   = obj(ship_blue  ,  115, 0);
+const ship_blue_8   = obj(ship_blue  ,  230, 0);
+
+const house         = obj([ img("house_blue"), img("house_border"), img("door_red"), img("door_border") ]);
+const window_yellow = obj([ img("window_yellow"), img("window_border") ]);
+const window_white  = obj([ img("window_yellow").clone_white(), img("window_border") ]);
+
+const man           = obj([ img("man_yellow"), img("man_border") ]);
+const man_0         = obj(man,    0,   0);
+const man_1         = obj(man, -200,  40);
+const man_2         = obj(man, -400,  70);
+
+const scenes = [
+	[ sun_yellow, house, window_white ,                man_0  ],
+	[ sun_yellow, house, window_white ,                man_1  ],
+	[ sun_yellow, house, window_white ,                man_2  ],
+	[ sun_yellow, house, window_yellow                        ],
+	[ sun_white , house, window_yellow                        ],
+	[ sun_white , house, window_yellow, ship_blue_0           ],
+	[ sun_white , house, window_yellow, ship_blue_1           ],
+	[ sun_white , house, window_yellow, ship_blue_2           ],
+	[ sun_white , house, window_white , ship_blue_2  , beam_2 ],
+	[ sun_white , house, window_white , ship_yellow_2         ],
+	//[ sun_white , house, window_white , ship_yellow_2         ],
+	[ sun_white , house, window_white , ship_yellow_3         ],
+	//[ sun_white , house, window_white , ship_yellow_4         ],
+	[ sun_white , house, window_white , ship_yellow_5         ],
+	[ sun_white , house, window_white , ship_yellow_6         ],
+	//[ sun_white , house, window_white , ship_yellow_6         ],
+	[ sun_white , house, window_white , ship_yellow_6, beam_6 ],
+	[ sun_white , house, window_white , ship_blue_6  , man_0  ],
+	[ sun_white , house, window_white , ship_blue_7  , man_0  ],
+	[ sun_white , house, window_white , ship_blue_8  , man_0  ],
+	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_white , house, window_white ,                man_0  ],
+];
+
+let id = null;
+let i  = 0;
+
+const loop = _ => {
+	if (++i === scenes.length) i = 0;
+	if (on_resize === draw_page) on_resize();
+	id = setTimeout(loop, 1000);
+};
 
 const start_audio = _ => {
 	window.start_audio = null;
 	window.stop_audio  = stop_audio;
-	start(group);
+	music();
+	id = setTimeout(loop, 1000);
 };
 
 const stop_audio = _ => {
 	window.start_audio = start_audio;
 	window.stop_audio  = null;
-	stop(group);
+	music();
+	clearTimeout(id);
+	id = null;
+	i  = 0;
 };
-
-const update_groups = _ => {
-	if (sun.state === DAY) {
-		if (man.state === INSIDE_HOUSE) {
-			group.set([ day_center, day_a, day_b, day_c ]);
-		} else if (man.state === OUTSIDE_HOUSE) {
-			//group.set([ day_center, day_c ]);
-			group.set([]);
-		} else if (man.state === IN_VALLEY) {
-//			group.set([ day_center, day_a ]);
-			group.set([]);
-		} else if (man.state === INSIDE_SHIP) {
-			group.set([ ring_1, ring_2, ring_3, ring_4 ]);
-		}
-	} else {
-		if (man.state === INSIDE_HOUSE) {
-			group.set([ day_center, day_a, day_b, day_c ]);
-		} else if (man.state === INSIDE_SHIP) {
-			group.set([ ring_1, ring_2, ring_3, ring_4 ]);
-		} else {
-			group.set([]);
-		}
-		// if (beam.state === TAKING) {
-		// 	group.set([ day_center, day_e ]);
-		// } else if (beam.state === PUTTING) {
-		// 	group.set([ day_center, day_e, day_accent ]);
-		// } else if (man.state === INSIDE_HOUSE) {
-		// 	group.set([ day_center, day_a, day_b, day_c, day_accent ]);
-		// } else if (man.state === OUTSIDE_HOUSE) {
-		// 	group.set([ day_center, day_c, day_accent ]);
-		// } else if (man.state === IN_VALLEY) {
-		// 	group.set([ day_center, day_a, day_accent ]);
-		// } else if (man.state === INSIDE_SHIP) {
-//			group.set([ ring_1, ring_2, ring_3, ring_4, ufo ]);
-			// group.set([ ring_1, ring_2, ring_3, ring_4 ]);
-		//}
-	}
-};
-
-let img = n => new c_img("./man/images/" + n + ".png");
-
-const borders       = img("borders");
-const back          = img("back");
-const volume        = img("volume");
-const audio_blue    = img("audio_blue");
-const audio_yellow  = audio_blue.clone_yellow();
-
-const green         = img("green");
-
-const audio   = new c_toggle(audio_blue, audio_yellow, null, start_audio, stop_audio);
-
-const DAY   = 0;
-const NIGHT = 1;
-
-const sun = {
-	state : DAY,
-	yellow: img("sun_yellow"),
-	white : img("sun_yellow").clone_white(),
-	border: img("sun_border"),
-	draw: function() {
-		if (this.state === DAY) draw(this.yellow);
-		else draw(this.white);
-		draw(this.border);
-	},
-	click: function() {
-//		if (beam.state !== OFF) return false;
-		if (click(this.yellow)) {
-			if (this.state === DAY) {
-				this.state = NIGHT;
-			} else {
-				this.state = DAY;
-			}
-			return true;
-		}
-		return false;
-	}
-};
-
-const OFF     = 0;
-const TAKING  = 1;
-const PUTTING = 2;
-
-const beam = {
-	state    : OFF,
-	white    : img("beam_white"),
-	draw: function() {
-		if (this.state !== OFF) {
-			if (ship.state === OVER_VALLEY) { 
-				draw(this.white);
-			} else {
-				draw(this.white, -400, 200);
-			}
-		} 
-	}
-};
-
-const OVER_VALLEY = 0;
-const OVER_HOUSE  = 1;
-
-const ship = {
-	state         : OVER_VALLEY,
-	blue          : img("ship_blue"),
-	yellow        : img("ship_blue").clone_yellow(),
-	border        : img("ship_border"),
-	draw: function() {
-		if (sun.state === DAY) return false;
-		if (this.state === OVER_VALLEY) { 
-			if (man.state === INSIDE_SHIP) draw(this.yellow);
-			else draw(this.blue);
-		} 
-		else if (this.state === OVER_HOUSE) { 
-			if (man.state === INSIDE_SHIP) draw(this.yellow, -400, 200);
-			else draw(this.blue, -400, 200);
-		}
-	},
-	click: function() {
-		if (sun.state === DAY) return false;
-		if (this.state === OVER_VALLEY) {
-			if (click(this.blue)) {
-				if (beam.state === OFF) {
-					if (man.state === IN_VALLEY) {
-						beam.state = TAKING;
-					} else if (man.state === INSIDE_SHIP) {
-						beam.state = PUTTING;
-					} else {
-						this.state = OVER_HOUSE;
-					}
-				} else if (beam.state === TAKING) {
-					beam.state = OFF;
-					man.state  = INSIDE_SHIP;
-				} else {
-					beam.state = OFF;
-					man.state  = IN_VALLEY;
-				}
-				return true;
-			} else return false;
-		} else {
-			if (click(this.blue, -400, 200)) {
-				if (beam.state === OFF) {
-					if (man.state === OUTSIDE_HOUSE) {
-						beam.state = TAKING;
-					} else if (man.state === INSIDE_SHIP) {
-						beam.state = PUTTING;
-					} else {
-						this.state = OVER_VALLEY;
-					}
-				} else if (beam.state === TAKING) {
-					beam.state = OFF;
-					man.state  = INSIDE_SHIP;
-				} else {
-					beam.state = OFF;
-					man.state  = OUTSIDE_HOUSE;
-				}
-				return true;
-			} else return false;
-		}
-	}
-};
-
-const house = {
-	blue         : img("house_blue"),
-	border       : img("house_border"),
-	door_border  : img("door_border"),
-	door_red     : img("door_red"),
-	window_border: img("window_border"),
-	window_yellow: img("window_yellow"),
-	window_white : img("window_yellow").clone_white(),
-	draw: function() {
-		draw(this.blue);
-		if (man.state === INSIDE_HOUSE) draw(this.window_yellow);
-		else draw(this.window_white);
-		draw([ this.door_red, this.border, this.window_border, this.door_border ]);
-	},
-	click: function() {
-		//if (sun.state === NIGHT) return false;
-		if (click(this.blue)) {
-			if (man.state === INSIDE_HOUSE) {
-				man.state = OUTSIDE_HOUSE;
-			} else if (man.state === OUTSIDE_HOUSE) {
-				man.state = INSIDE_HOUSE;
-			} else if (man.state === IN_VALLEY) {
-				man.state = INSIDE_HOUSE;
-			} else if (man.state === INSIDE_SHIP) {
-				if (sun.state === NIGHT) {
-					if (ship.state === OVER_VALLEY) {
-						ship.state = OVER_HOUSE;
-					} else {
-						ship.state = OVER_VALLEY;
-					}
-				}
-			}
-			return true;
-		} else return false;
-	}
-}
-
-const IN_VALLEY     = 0;
-const INSIDE_HOUSE  = 1;
-const OUTSIDE_HOUSE = 2;
-const INSIDE_SHIP   = 3;
-
-const man = {
-	state         : IN_VALLEY,
-	yellow        : img("man_yellow"),
-	border        : img("man_border"),
-	draw: function() {
-		if (this.state === IN_VALLEY) { 
-			draw(this.yellow); 
-			draw(this.border); 
-		} else if (this.state === OUTSIDE_HOUSE) { 
-			draw(this.yellow, -400, 200); 
-			draw(this.border, -400, 200); 
-		}
-	},
-	click: function() {
-		//if (sun.state === NIGHT) return false;
-		if (this.state === IN_VALLEY) { 
-			if (click(this.yellow)) {
-				this.state = OUTSIDE_HOUSE;
-				return true;
-			} else return false;
-		}
-		else if (this.state === OUTSIDE_HOUSE) {
-			if (click(this.yellow, -400, 200)) {
-				this.state = INSIDE_HOUSE;
-				return true;
-			} else return false;
-		} else return false;
-	}
-};
-
-let click_set = [ sun, man, house, ship ];
-
-let start_external_audio = null;
 
 const click_page = _ => {
-    if (click(back)) return run_page("home"); 
-	else start_external_audio = null;
-    if (click(volume)) run_volume();
-	if (click(audio)) on_resize();
-	if (click(click_set)) {
-		update_groups();
-		on_resize();
+	if (window.stop_audio === null) {
+	    if (click(back)) {
+			if (window.stop_audio !== null) stop_audio();
+			return run_page("home"); 
+		}
+	    if (click(volume)) return run_volume();
+		start_audio();
+	} else {
+		stop_audio();
 	}
+	on_resize();
 };
 
 const draw_page = _ => {
-	draw(sun.state === DAY ? bg_white : bg_black);
+	draw(bg_green);
 	draw(green);
-    draw(back);
-    draw(volume);
-	draw(audio);
-	draw([ house, sun, man, ship, beam ]);
-    draw(borders);
+	if (window.stop_audio === null) {
+	    draw(back);
+	    draw(volume);
+	} else {
+		draw(scenes[i]);
+	}
 };
 
 const run = _ => {
-    if (window.stop_audio !== null && window.stop_audio !== stop_audio) {
-		window.stop_audio();
-		start_external_audio = window.start_audio;
-	}
-	audio.on = window.stop_audio !== null;
-	on_resize = draw_page;
+    on_resize = draw_page;
     on_click  = click_page;
     on_resize();
-	update_groups();
 };
 
 export { run }
