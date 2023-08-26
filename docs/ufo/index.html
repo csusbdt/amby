@@ -1,0 +1,14 @@
+<html>
+<head>
+    <script type="module">
+		const app_name = "amby";
+		let app_state = localStorage.getItem(app_name);
+		if (app_state === null) app_state = { version: "0", page: "ufo" };
+		else app_state = JSON.parse(app_state);
+		app_state.page = "ufo";
+		localStorage.setItem(app_name, JSON.stringify(app_state));
+		location = "../";
+    </script>
+</head>
+<body></body>
+</html>
