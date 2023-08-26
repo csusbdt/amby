@@ -29,38 +29,39 @@ const volume = obj([ img("volume_blue"), img("volume_border") ]);
 
 img = n => new c_img("./man/images/" + n + ".png");
 
-const green         = img("green");
+const green          = img("green");
+const cover_border_0 = img("cover_border_0");
 
-const sun_yellow    = obj([ img("sun_yellow")              , img("sun_border") ], 100);
-const sun_white     = obj([ img("sun_yellow").clone_white(), img("sun_border") ], 100);
+const sun_yellow     = obj([ img("sun_yellow")              , img("sun_border") ], 100);
+const sun_white      = obj([ img("sun_yellow").clone_white(), img("sun_border") ], 100);
 
-const beam_6        = img("beam_white");
-const beam_2        = obj(beam_6, -460, 10);
+const beam_6         = img("beam_white");
+const beam_2         = obj(beam_6, -460, 10);
 
-const ship_blue     = obj([ img("ship_blue")               , img("ship_border") ]);
-const ship_yellow   = obj([ img("ship_blue").clone_yellow(), img("ship_border") ]);
-const ship_blue_0   = obj(ship_blue  , -690, 0);
-const ship_blue_1   = obj(ship_blue  , -575, 0);
-const ship_blue_2   = obj(ship_blue  , -460, 0);
-const ship_yellow_2 = obj(ship_yellow, -460, 0);
-const ship_yellow_3 = obj(ship_yellow, -306, 0);
+const ship_blue      = obj([ img("ship_blue")               , img("ship_border") ]);
+const ship_yellow    = obj([ img("ship_blue").clone_yellow(), img("ship_border") ]);
+const ship_blue_0    = obj(ship_blue  , -690, 0);
+const ship_blue_1    = obj(ship_blue  , -575, 0);
+const ship_blue_2    = obj(ship_blue  , -460, 0);
+const ship_yellow_2  = obj(ship_yellow, -460, 0);
+const ship_yellow_3  = obj(ship_yellow, -306, 0);
 // const ship_yellow_3 = obj(ship_yellow, -345, 0);
 // const ship_yellow_4 = obj(ship_yellow, -230, 0);
 // const ship_yellow_5 = obj(ship_yellow, -115, 0);
-const ship_yellow_5 = obj(ship_yellow, -153, 0);
-const ship_yellow_6 = obj(ship_yellow,    0, 0);
-const ship_blue_6   = obj(ship_blue  ,    0, 0);
-const ship_blue_7   = obj(ship_blue  ,  115, 0);
-const ship_blue_8   = obj(ship_blue  ,  230, 0);
+const ship_yellow_5  = obj(ship_yellow, -153, 0);
+const ship_yellow_6  = obj(ship_yellow,    0, 0);
+const ship_blue_6    = obj(ship_blue  ,    0, 0);
+const ship_blue_7    = obj(ship_blue  ,  115, 0);
+const ship_blue_8    = obj(ship_blue  ,  230, 0);
 
-const house         = obj([ img("house_blue"), img("house_border"), img("door_red"), img("door_border") ]);
-const window_yellow = obj([ img("window_yellow"), img("window_border") ]);
-const window_white  = obj([ img("window_yellow").clone_white(), img("window_border") ]);
+const house          = obj([ img("house_blue"), img("house_border"), img("door_red"), img("door_border") ]);
+const window_yellow  = obj([ img("window_yellow"), img("window_border") ]);
+const window_white   = obj([ img("window_yellow").clone_white(), img("window_border") ]);
 
-const man           = obj([ img("man_yellow"), img("man_border") ]);
-const man_0         = obj(man,    0,   0);
-const man_1         = obj(man, -200,  40);
-const man_2         = obj(man, -400,  70);
+const man            = obj([ img("man_yellow"), img("man_border") ]);
+const man_0          = obj(man,    0,   0);
+const man_1          = obj(man, -200,  40);
+const man_2          = obj(man, -400,  70);
 
 const scenes = [
 	[ sun_yellow, house, window_white ,                man_0  ],
@@ -113,6 +114,37 @@ const stop_audio = _ => {
 	i  = 0;
 };
 
+const cover = [
+	obj([ img("cover_0"), img("cover_border_0") ]),
+	obj([ img("cover_1"), img("cover_border_1") ]),
+	obj([ img("cover_2"), img("cover_border_2") ]),
+	obj([ img("cover_3"), img("cover_border_3") ])
+];
+
+let cover_i = 0;
+
+const start = _ => {
+	if (++cover_i === cover.length) {
+	    on_click  = click_page;
+		start_audio();	
+	} else {
+	    on_click  = null;
+		setTimeout(start, 80);
+	}
+    on_resize();
+};
+
+const stop = _ => {
+	if (--cover_i === 0) {
+	    on_click = click_page;
+		stop_audio();	
+	} else {
+	    on_click = null;
+		setTimeout(stop, 80);
+	}
+    on_resize();
+};
+
 const click_page = _ => {
 	if (window.stop_audio === null) {
 	    if (click(back)) {
@@ -120,9 +152,12 @@ const click_page = _ => {
 			return run_page("home"); 
 		}
 	    if (click(volume)) return run_volume();
-		start_audio();
+		if (click(cover[0])) {
+			on_click = null;
+			start();
+		}
 	} else {
-		stop_audio();
+		stop();
 	}
 	on_resize();
 };
@@ -130,11 +165,13 @@ const click_page = _ => {
 const draw_page = _ => {
 	draw(bg_green);
 	draw(green);
+	draw(scenes[i]);
 	if (window.stop_audio === null) {
 	    draw(back);
 	    draw(volume);
-	} else {
-		draw(scenes[i]);
+	}
+	if (cover_i !== cover.length) {
+		draw(cover[cover_i]);
 	}
 };
 
