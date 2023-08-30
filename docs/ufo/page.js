@@ -43,11 +43,10 @@ const ship_yellow    = obj([ img("ship_blue").clone_yellow(), img("ship_border")
 const ship_blue_0    = obj(ship_blue  , -690, 0);
 const ship_blue_1    = obj(ship_blue  , -575, 0);
 const ship_blue_2    = obj(ship_blue  , -460, 0);
+const ship_blue_3    = obj(ship_blue  , -306, 0);
+const ship_blue_5    = obj(ship_blue  , -153, 0);
 const ship_yellow_2  = obj(ship_yellow, -460, 0);
 const ship_yellow_3  = obj(ship_yellow, -306, 0);
-// const ship_yellow_3 = obj(ship_yellow, -345, 0);
-// const ship_yellow_4 = obj(ship_yellow, -230, 0);
-// const ship_yellow_5 = obj(ship_yellow, -115, 0);
 const ship_yellow_5  = obj(ship_yellow, -153, 0);
 const ship_yellow_6  = obj(ship_yellow,    0, 0);
 const ship_blue_6    = obj(ship_blue  ,    0, 0);
@@ -65,28 +64,77 @@ const man_2          = obj(man, -400,  70);
 
 const scenes = [
 	[ sun_yellow, house, window_white ,                man_0  ],
-	[ sun_yellow, house, window_white ,                man_1  ],
-	[ sun_yellow, house, window_white ,                man_2  ],
-	[ sun_yellow, house, window_yellow                        ],
-	[ sun_white , house, window_yellow                        ],
+	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_yellow, house, window_white ,                man_0  ],
+	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_yellow, house, window_white ,                man_0  ],
+	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_yellow, house, window_white ,                man_0  ],
+	[ sun_white , house, window_white ,                man_0  ],
+
+	[ sun_white , house, window_white ,                man_1  ],
+	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_white , house, window_white ,                man_1  ],
+	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_white , house, window_white ,                man_1  ],
+	[ sun_white , house, window_white ,                man_2  ],	
+	[ sun_white , house, window_white ,                man_1  ],
+	[ sun_white , house, window_white ,                man_2  ],
+	
+	[ sun_white , house, window_yellow,                       ],
+	[ sun_white , house, window_white ,                       ],
+	[ sun_white , house, window_yellow,                       ],
+	[ sun_white , house, window_white ,                       ],	
 	[ sun_white , house, window_yellow, ship_blue_0           ],
-	[ sun_white , house, window_yellow, ship_blue_1           ],
+	[ sun_white , house, window_white , ship_blue_1           ],
 	[ sun_white , house, window_yellow, ship_blue_2           ],
 	[ sun_white , house, window_white , ship_blue_2  , beam_2 ],
+	
 	[ sun_white , house, window_white , ship_yellow_2         ],
-	//[ sun_white , house, window_white , ship_yellow_2         ],
 	[ sun_white , house, window_white , ship_yellow_3         ],
-	//[ sun_white , house, window_white , ship_yellow_4         ],
 	[ sun_white , house, window_white , ship_yellow_5         ],
 	[ sun_white , house, window_white , ship_yellow_6         ],
-	//[ sun_white , house, window_white , ship_yellow_6         ],
 	[ sun_white , house, window_white , ship_yellow_6, beam_6 ],
 	[ sun_white , house, window_white , ship_blue_6  , man_0  ],
 	[ sun_white , house, window_white , ship_blue_7  , man_0  ],
 	[ sun_white , house, window_white , ship_blue_8  , man_0  ],
+
+	[ sun_yellow, house, window_white ,                man_0  ],
 	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_yellow, house, window_white ,                man_0  ],
 	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_yellow, house, window_white ,                man_0  ],
 	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_yellow, house, window_white ,                man_0  ],
+	[ sun_white , house, window_white ,                man_0  ],
+
+	[ sun_yellow, house, window_white ,                man_1  ],
+	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_yellow, house, window_white ,                man_1  ],
+	[ sun_white , house, window_white ,                man_0  ],
+	[ sun_yellow, house, window_white ,                man_1  ],
+	[ sun_white , house, window_white ,                man_2  ],	
+	[ sun_yellow, house, window_white ,                man_1  ],
+	[ sun_white , house, window_white ,                man_2  ],
+	
+	[ sun_yellow, house, window_yellow,                       ],
+	[ sun_white , house, window_white ,                       ],
+	[ sun_yellow, house, window_yellow,                       ],
+	[ sun_white , house, window_white ,                       ],
+	[ sun_yellow, house, window_yellow,                       ],
+	[ sun_white , house, window_white ,                       ],
+	[ sun_yellow, house, window_yellow,                       ],
+	[ sun_white , house, window_white ,                       ],
+
+	[ sun_white , house, window_yellow, ship_blue_0           ],
+	[ sun_white , house, window_white , ship_blue_1           ],
+	[ sun_white , house, window_yellow, ship_blue_2           ],
+	[ sun_white , house, window_white , ship_blue_3           ],
+	[ sun_white , house, window_yellow, ship_blue_5           ],
+	[ sun_white , house, window_white , ship_blue_6           ],
+	[ sun_white , house, window_white , ship_blue_7,   man_2  ],
+	[ sun_white , house, window_white , ship_blue_8,   man_1  ],
+
 ];
 
 let id = null;
