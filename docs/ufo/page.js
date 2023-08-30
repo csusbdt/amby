@@ -36,7 +36,7 @@ const sun_yellow     = obj([ img("sun_yellow")              , img("sun_border") 
 const sun_white      = obj([ img("sun_yellow").clone_white(), img("sun_border") ], 100);
 
 const beam_6         = img("beam_white");
-const beam_2         = obj(beam_6, -460, 10);
+const beam_2         = obj(beam_6, -460, 0);
 
 const ship_blue      = obj([ img("ship_blue")               , img("ship_border") ]);
 const ship_yellow    = obj([ img("ship_blue").clone_yellow(), img("ship_border") ]);
