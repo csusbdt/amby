@@ -141,7 +141,11 @@ let id = null;
 let i  = 0;
 
 const loop = _ => {
-	if (++i === scenes.length) i = 0;
+	if (++i === scenes.length) {
+		i = 0;
+		music();
+		music();
+	}
 	if (on_resize === draw_page) on_resize();
 	id = setTimeout(loop, 1000);
 };
